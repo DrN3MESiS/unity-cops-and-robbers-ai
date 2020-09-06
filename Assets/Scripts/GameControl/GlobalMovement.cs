@@ -76,7 +76,8 @@ public class GlobalMovement : MonoBehaviour {
         myCollider = gameObject.AddComponent<SphereCollider>();
         myCollider.isTrigger = true;
         myCollider.radius = radius;
-        
+        s_panicDist = radius + 1;
+
 
         switch (gameObject.tag)
         {
@@ -84,10 +85,10 @@ public class GlobalMovement : MonoBehaviour {
                 OnWander = true;
                 break;
             case "Pedestrian":
-                OnWander = true;
+                //OnWander = true;
                 break;
             case "Police":
-                OnWander = true;
+                //OnWander = true;
                 break;
             case "Thief":
                 break;
@@ -100,13 +101,13 @@ public class GlobalMovement : MonoBehaviour {
     {
         string myTag = gameObject.tag;
         string victimTag = obj.gameObject.tag;
-        //What am I
         switch (myTag)
         {
+            //What am I
             case "Pedestrian":
-                //Who am I colliding with
                 switch (victimTag)
                 {
+                //Who am I colliding with
                     case "Pedestrian":
                         if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
@@ -132,9 +133,9 @@ public class GlobalMovement : MonoBehaviour {
                 }
                 break;
             case "Police":
-                //Who am I colliding with
                 switch (victimTag)
                 {
+                //Who am I colliding with
                     case "Pedestrian":
                         if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
@@ -160,9 +161,9 @@ public class GlobalMovement : MonoBehaviour {
                 }
                 break;
             case "Assassin":
-                //Who am I colliding with
                 switch (victimTag)
                 {
+                //Who am I colliding with
                     case "Pedestrian":
                         if(obj.GetType() == typeof(CapsuleCollider))
                         {
@@ -170,8 +171,10 @@ public class GlobalMovement : MonoBehaviour {
                             this.OnWander = false;
                             this.TargetWander = null;
                             this.TargetSeek = null;
-                            this.TargetSeek = obj.gameObject;
-                            this.OnSeek = true;
+                            this.OnSeek = false;
+
+                            this.TargetArrival = obj.gameObject;
+                            this.OnArrival = true;
                         }
                         break;
                     case "Police":
@@ -204,9 +207,9 @@ public class GlobalMovement : MonoBehaviour {
                 }
                 break;
             case "Thief":
-                //Who am I colliding with
                 switch (victimTag)
                 {
+                //Who am I colliding with
                     case "Pedestrian":
                         if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
@@ -232,9 +235,9 @@ public class GlobalMovement : MonoBehaviour {
                 }
                 break;
             case "User":
-                //Who am I colliding with
                 switch (victimTag)
                 {
+                //Who am I colliding with
                     case "Pedestrian":
                         if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
@@ -267,13 +270,13 @@ public class GlobalMovement : MonoBehaviour {
     {
         string myTag = gameObject.tag;
         string victimTag = obj.gameObject.tag;
-        //What am I
         switch (myTag)
         {
+        //What am I
             case "Pedestrian":
-                //Who is no longer colliding with me
                 switch (victimTag)
                 {
+                //Who is no longer colliding with me
                     case "Pedestrian":
                         if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
@@ -299,9 +302,9 @@ public class GlobalMovement : MonoBehaviour {
                 }
                 break;
             case "Police":
-                //Who is no longer colliding with me
                 switch (victimTag)
                 {
+                //Who is no longer colliding with me
                     case "Pedestrian":
                         if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
@@ -327,9 +330,9 @@ public class GlobalMovement : MonoBehaviour {
                 }
                 break;
             case "Assassin":
-                //Who is no longer colliding with me
                 switch (victimTag)
                 {
+                //Who is no longer colliding with me
                     case "Pedestrian":
                         if (obj.GetType() == typeof(CapsuleCollider))
                         {
@@ -369,9 +372,9 @@ public class GlobalMovement : MonoBehaviour {
                 }
                 break;
             case "Thief":
-                //Who is no longer colliding with me
                 switch (victimTag)
                 {
+                //Who is no longer colliding with me
                     case "Pedestrian":
                         if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
@@ -397,9 +400,9 @@ public class GlobalMovement : MonoBehaviour {
                 }
                 break;
             case "User":
-                //Who is no longer colliding with me
                 switch (victimTag)
                 {
+                //Who is no longer colliding with me
                     case "Pedestrian":
                         if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
@@ -448,7 +451,7 @@ public class GlobalMovement : MonoBehaviour {
 
         if (OnFlee)
         {
-            s_panicDist = radius;
+            
             if (TargetFlee != null)
             {
                 vel_Flee = Flee(TargetFlee.transform.position);
@@ -518,6 +521,7 @@ public class GlobalMovement : MonoBehaviour {
                 if (Vector3.Distance(TargetArrival.transform.position, transform.position) > 1.0)
                 {
                     vel_Arrive = Arrival(TargetArrival.transform.position);
+                    Debug.Log(vel_Arrive);
                 }
 
                 else vel_Arrive = vc_Velocity * -1.0f;
