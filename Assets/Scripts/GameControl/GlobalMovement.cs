@@ -47,7 +47,6 @@ public class GlobalMovement : MonoBehaviour {
 
     /** Entity Properties */
     Rigidbody EntityRB;
-    private Vector3 vn_Velocity;
     private Vector3 newPosition;
 
     /*Behaviours Properties*/
@@ -73,7 +72,6 @@ public class GlobalMovement : MonoBehaviour {
     void Start () {
         EntityRB = GetComponent<Rigidbody>();
         s_MinSpeed = 0.2f;
-        vn_Velocity = new Vector3(0.0f, 0.0f, 0.0f);
         vc_Velocity = new Vector3(0.0f, 0.0f, 0.0f);
         myCollider = gameObject.AddComponent<SphereCollider>();
         myCollider.isTrigger = true;
@@ -86,10 +84,10 @@ public class GlobalMovement : MonoBehaviour {
                 OnWander = true;
                 break;
             case "Pedestrian":
-                //OnWander = true;
+                OnWander = true;
                 break;
             case "Police":
-                //OnWander = true;
+                OnWander = true;
                 break;
             case "Thief":
                 break;
@@ -432,7 +430,6 @@ public class GlobalMovement : MonoBehaviour {
     }
 
     void Update () {
-        vn_Velocity = Vector3.zero;
 
         if (OnSeek)
         {
@@ -451,10 +448,15 @@ public class GlobalMovement : MonoBehaviour {
 
         if (OnFlee)
         {
+            s_panicDist = radius;
             if (TargetFlee != null)
+            {
                 vel_Flee = Flee(TargetFlee.transform.position);
+            }
              else
+            {
                 Debug.Log("No hay un Target seleccionado para hacer Flee");
+            }
         }
 
         if(OnPursuit)
@@ -611,9 +613,10 @@ public class GlobalMovement : MonoBehaviour {
         direction =  transform.position-targetFlee;
         direction.y = 0;
 
+
         if (direction.magnitude>s_panicDist)
         {
-           
+            Debug.Log("onFlee() > "+ direction.magnitude + " > " + s_panicDist + " :: return Vector Zero");   
             return (Vector3.zero);
         }
         direction.Normalize();
@@ -658,7 +661,6 @@ public class GlobalMovement : MonoBehaviour {
 
         if (direction.magnitude < s_panicDist)
         {
-
             return (Vector3.zero);
         }
         direction.Normalize();
