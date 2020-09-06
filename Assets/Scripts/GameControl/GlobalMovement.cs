@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GlobalMovement : MonoBehaviour {
     /* Public Properties*/
-    public float s_rotSpeed=5.0f;
-    public float s_MaxSpeed=3.0f;
+    public float s_rotSpeed = 1.5f;
+    public float s_MaxSpeed = 8.0f;
     public float s_MinSpeed = 1.0f;
 
     /* Triggers */
@@ -28,12 +28,19 @@ public class GlobalMovement : MonoBehaviour {
     public GameObject TargetWander;
     public GameObject TargetOffsetPursuit;
 
-
     public float s_panicDist;
     public float pursuitDist;
 
     public Vector3 vc_Velocity;
     public Vector3 vc_Heading;
+    private Vector3 vel_Wander = Vector3.zero;
+    private Vector3 vel_Seek = Vector3.zero;
+    private Vector3 vel_Flee = Vector3.zero;
+    private Vector3 vel_Arrive = Vector3.zero;
+    private Vector3 vel_Pursuit = Vector3.zero;
+    private Vector3 vel_OffsetPursuit = Vector3.zero;
+    private Vector3 vel_Evade = Vector3.zero;
+
 
     /** Entity Properties */
     Rigidbody EntityRB;
@@ -50,10 +57,13 @@ public class GlobalMovement : MonoBehaviour {
     //PathFollow
     public List<Point> pathPoints;
     public List<Vector3> pathVectors = new List<Vector3>();
-    
+    //Wander
     public bool isGamePath = true;
     public float speed = 1.0f;
     private Point curr;
+
+    /***/
+    float elapsed = 0f;
 
 
     /* Functions */
@@ -72,9 +82,10 @@ public class GlobalMovement : MonoBehaviour {
             if (TargetSeek != null)
             {
                 if (Vector3.Distance(TargetSeek.transform.position, transform.position) > 1.0)
-                    vn_Velocity = vn_Velocity + Seek(TargetSeek.transform.position);
+                    vel_Seek = Seek(TargetSeek.transform.position);
                 else
-                    vn_Velocity = vc_Velocity * -1.0f;
+                    vel_Seek = vc_Velocity * -1.0f;
+                //CustomSeek(TargetSeek.transform.position);
             } else
             {
                 Debug.Log("No hay un Target seleccionado para hacer Seek");
@@ -100,10 +111,38 @@ public class GlobalMovement : MonoBehaviour {
 
         if (OnWander)
         {
+            speed = 10.0f;
             if(TargetWander != null)
-                Wander(TargetWander);
+            {
+                elapsed += Time.deltaTime;
+                if (elapsed >= .5f)
+                {
+                    elapsed = elapsed % .5f;
+                    Wander(TargetWander);
+                }
+               
+
+                this.TargetSeek = TargetWander;
+                this.OnSeek = true;
+            }
              else
-                Debug.Log("No hay un Target seleccionado para hacer Wander");
+            {
+                GameObject temp = new GameObject();
+                TargetWander = Instantiate(temp, transform.position, Quaternion.identity);
+                Destroy(temp);
+                speed = 1.0f;
+            }
+
+        } else
+        {
+            if(TargetWander != null)
+            {
+                vel_Seek = Vector3.zero;
+                Destroy(TargetWander);
+                TargetWander = null;
+                this.TargetSeek = null;
+                this.OnSeek = false;
+            }
         }
 
         if (OnOffsetPursuit)
@@ -161,7 +200,8 @@ public class GlobalMovement : MonoBehaviour {
             }
         }
 
-        vc_Velocity += vn_Velocity;
+        vc_Velocity = Vector3.zero;
+        vc_Velocity += vel_Seek + vel_Arrive + vel_Evade + vel_Flee + vel_OffsetPursuit + vel_Pursuit + vel_Wander;
         vc_Velocity = Vector3.ClampMagnitude(vc_Velocity, s_MaxSpeed);
         newPosition = transform.position + (vc_Velocity * Time.deltaTime);
         if (vc_Velocity.magnitude > s_MinSpeed) transform.position = newPosition;
@@ -181,18 +221,18 @@ public class GlobalMovement : MonoBehaviour {
 
         transform.Rotate(0.0f, rotAngle, 0.0f, Space.Self);
     }
-        
+
     //******************************************************************
     public Vector3 Seek(Vector3 targetSeek)
     {
         Vector3 direction;
-       
-       direction =  targetSeek-transform.position;
+
+        direction = targetSeek - transform.position;
         direction.y = 0;
 
-        if (direction.magnitude < 1.0f )
+        if (direction.magnitude < 1.0f)
         {
-            
+
             return (Vector3.zero);
         }
         direction.Normalize();
@@ -200,8 +240,12 @@ public class GlobalMovement : MonoBehaviour {
         DesiredVelocity = Vector3.ClampMagnitude(DesiredVelocity, s_MaxSpeed);
 
         return (DesiredVelocity - vc_Velocity);
-
-
+    }
+    public void CustomSeek(Vector3 targetSeek)
+    {
+        Vector3 pos = Vector3.MoveTowards(transform.position, targetSeek, speed * Time.fixedDeltaTime);
+        EntityRB.MovePosition(pos);
+        transform.LookAt(targetSeek);
     }
 
     //******************************************************************
@@ -276,16 +320,26 @@ public class GlobalMovement : MonoBehaviour {
     //******************************************************************
     private void Wander(GameObject target)
     {
-        EntityRB.MovePosition(target.transform.position);
-        transform.rotation = Quaternion.Euler(0, Random.Range(sAngle, fAngle), 0);
-        transform.Translate(Vector3.forward * distance);
+        target.transform.position = transform.position;
+        target.transform.rotation = Quaternion.Euler(0, Random.Range(sAngle, fAngle), 0);
+        target.transform.Translate(Vector3.forward * distance);
     }
 
     //******************************************************************
+
+    public void CustomOffsetPursuit(GameObject targetOffsetPursuit, float offset)
+    {
+        moveVelSimple objecto = targetOffsetPursuit.GetComponent<moveVelSimple>();
+        Vector3 targetFuture = transform.position + objecto.vc_Heading * offset;
+
+
+        CustomSeek(targetFuture);
+    }
     public Vector3 OffsetPursuit(GameObject targetOffsetPursuit, float offset)
     {
         moveVelSimple objecto = targetOffsetPursuit.GetComponent<moveVelSimple>();
         Vector3 targetFuture = transform.position + objecto.vc_Heading * offset;
+
 
         float distance = Vector3.Distance(transform.position, targetOffsetPursuit.transform.position);
         print(distance);
