@@ -69,6 +69,7 @@ public class GlobalMovement : MonoBehaviour {
 
 
     /* Functions */
+    bool debug = false;
     void Start () {
         EntityRB = GetComponent<Rigidbody>();
         s_MinSpeed = 0.2f;
@@ -168,24 +169,19 @@ public class GlobalMovement : MonoBehaviour {
                         if(obj.GetType() == typeof(CapsuleCollider))
                         {
                             Debug.Log(myTag + " is colliding with " + victimTag);
-                            this.OnWander = false;
-                            this.TargetWander = null;
-                            this.TargetSeek = null;
-                            this.OnSeek = false;
-
-                            this.TargetArrival = obj.gameObject;
-                            this.OnArrival = true;
+                            if (!this.OnFlee)
+                            {
+                                ResetProperties();
+                                this.TargetArrival = obj.gameObject;
+                                this.OnArrival = true;
+                            }
                         }
                         break;
                     case "Police":
                         if (obj.GetType() == typeof(CapsuleCollider))
                         {
                             Debug.Log(myTag + " is colliding with " + victimTag);
-                            this.OnWander = false;
-                            this.TargetWander = null;
-                            this.TargetSeek = null;
-                            this.OnSeek = false;
-
+                            ResetProperties();
                             this.TargetFlee = obj.gameObject;
                             this.OnFlee = true;
                         }
@@ -337,8 +333,7 @@ public class GlobalMovement : MonoBehaviour {
                         if (obj.GetType() == typeof(CapsuleCollider))
                         {
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                            this.OnSeek = false;
-                            this.TargetSeek = null; //Necessary so trigger creates it's own WanderObj
+                            ResetArrival();
                             this.OnWander = true;
                         }
                         break;
@@ -346,12 +341,7 @@ public class GlobalMovement : MonoBehaviour {
                         if (obj.GetType() == typeof(CapsuleCollider))
                         {
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                            this.TargetFlee = null;
-                            this.OnFlee = false;
-
-                            this.TargetWander = null;
-                            this.TargetSeek = null;
-                            this.OnSeek = false;
+                            ResetFlee();
                             this.OnWander = true;
                         }
                         break;
@@ -521,10 +511,11 @@ public class GlobalMovement : MonoBehaviour {
                 if (Vector3.Distance(TargetArrival.transform.position, transform.position) > 1.0)
                 {
                     vel_Arrive = Arrival(TargetArrival.transform.position);
-                    Debug.Log(vel_Arrive);
                 }
-
-                else vel_Arrive = vc_Velocity * -1.0f;
+                else
+                {
+                    vel_Arrive = vc_Velocity * -1.0f;
+                }
             } else
             {
                 Debug.Log("No hay un Target seleccionado para hacer Arrival");
@@ -563,6 +554,10 @@ public class GlobalMovement : MonoBehaviour {
 
         vc_Velocity = Vector3.zero;
         vc_Velocity += vel_Seek + vel_Arrive + vel_Evade + vel_Flee + vel_OffsetPursuit + vel_Pursuit + vel_Wander;
+        if (debug)
+        {
+            Debug.Log("vc_Velocity("+vc_Velocity+") = " + "vel_Seek("+vel_Seek+") + " + "vel_Arrive(" + vel_Arrive + ") + " + "vel_Evade(" + vel_Evade + ") + " + "vel_Flee(" + vel_Flee + ") + " + "vel_OffsetPursuit(" + vel_OffsetPursuit + ") + " + "vel_Pursuit(" + vel_Pursuit + ") + " + "vel_Wander(" + vel_Wander + ")");
+        }
         vc_Velocity = Vector3.ClampMagnitude(vc_Velocity, s_MaxSpeed);
         newPosition = transform.position + (vc_Velocity * Time.deltaTime);
         if (vc_Velocity.magnitude > s_MinSpeed) transform.position = newPosition;
@@ -758,4 +753,93 @@ public class GlobalMovement : MonoBehaviour {
         Gizmos.DrawWireSphere(transform.position, radius);
         Gizmos.color = Color.blue;
     }
+
+    private void ResetProperties()
+    {
+        this.OnWander = false;
+        this.TargetWander = null;
+        vel_Wander = Vector3.zero;
+
+        this.TargetSeek = null;
+        this.OnSeek = false;
+        vel_Seek = Vector3.zero;
+
+        this.TargetArrival = null;
+        this.OnArrival = false;
+        vel_Arrive = Vector3.zero;
+
+        this.TargetFlee = null;
+        this.OnFlee = false;
+        vel_Flee = Vector3.zero;
+
+        this.TargetEvade = null;
+        this.OnEvade = false;
+        vel_Evade = Vector3.zero;
+
+        this.TargetPathFollow = null;
+        this.OnPathFollow = false;
+
+
+        this.TargetPursuit = null;
+        this.OnPursuit = false;
+        vel_Pursuit = Vector3.zero;
+
+        this.TargetOffsetPursuit = null;
+        this.OnOffsetPursuit = false;
+        vel_OffsetPursuit = Vector3.zero;
+    }
+
+    private void ResetWander()
+    {
+        this.OnWander = false;
+        this.TargetWander = null;
+        vel_Wander = Vector3.zero;
+    }
+    private void ResetSeek()
+    {
+        this.TargetSeek = null;
+        this.OnSeek = false;
+        vel_Seek = Vector3.zero;
+    }
+
+    private void ResetArrival()
+    {
+        this.TargetArrival = null;
+        this.OnArrival = false;
+        vel_Arrive = Vector3.zero;
+    }
+
+    private void ResetFlee()
+    {
+        this.TargetFlee = null;
+        this.OnFlee = false;
+        vel_Flee = Vector3.zero;
+    }
+
+    private void ResetEvade()
+    {
+        this.TargetEvade = null;
+        this.OnEvade = false;
+        vel_Evade = Vector3.zero;
+    }
+
+    private void ResetPathFollow()
+    {
+        this.TargetPathFollow = null;
+        this.OnPathFollow = false;
+    }
+    private void ResetPursuit()
+    {
+        this.TargetPursuit = null;
+        this.OnPursuit = false;
+        vel_Pursuit = Vector3.zero;
+    }
+    private void ResetOffsetPursuit()
+    {
+        this.TargetOffsetPursuit = null;
+        this.OnOffsetPursuit = false;
+        vel_OffsetPursuit = Vector3.zero;
+    }
+
 }
+
