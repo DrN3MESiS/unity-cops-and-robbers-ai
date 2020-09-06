@@ -10,7 +10,12 @@ PrefabInstance:
     - target: {fileID: 8113795838886813847, guid: 7702a8c6f2c0e6646bdee6c74cb81776,
         type: 3}
       propertyPath: m_Name
-      value: Entity (1)
+      value: Police Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 8113795838886813847, guid: 7702a8c6f2c0e6646bdee6c74cb81776,
+        type: 3}
+      propertyPath: m_TagString
+      value: Police
       objectReference: {fileID: 0}
     - target: {fileID: 8113795838886813864, guid: 7702a8c6f2c0e6646bdee6c74cb81776,
         type: 3}
