@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8113795838886813866}
   - component: {fileID: 8113795838886813845}
   - component: {fileID: 8113795838886813844}
-  - component: {fileID: 8113795838886813865}
+  - component: {fileID: 1035793978527714185}
   m_Layer: 0
   m_Name: Entity
   m_TagString: Untagged
@@ -112,7 +112,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &8113795838886813865
+--- !u!114 &1035793978527714185
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   s_rotSpeed: 1.5
-  s_MaxSpeed: 6
+  s_MaxSpeed: 8
   s_MinSpeed: 1
   OnSeek: 0
   OnFlee: 0
@@ -147,6 +147,7 @@ MonoBehaviour:
   pursuitDist: 0
   vc_Velocity: {x: 0, y: 0, z: 0}
   vc_Heading: {x: 0, y: 0, z: 0}
+  radius: 6
   pathPoints: []
   pathVectors: []
   isGamePath: 1

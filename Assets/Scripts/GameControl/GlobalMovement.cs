@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GlobalMovement : MonoBehaviour {
@@ -41,6 +40,10 @@ public class GlobalMovement : MonoBehaviour {
     private Vector3 vel_OffsetPursuit = Vector3.zero;
     private Vector3 vel_Evade = Vector3.zero;
 
+    /*Global Radius*/
+    private SphereCollider myCollider;
+    public float radius = 6.0f;
+
 
     /** Entity Properties */
     Rigidbody EntityRB;
@@ -72,9 +75,344 @@ public class GlobalMovement : MonoBehaviour {
         s_MinSpeed = 0.2f;
         vn_Velocity = new Vector3(0.0f, 0.0f, 0.0f);
         vc_Velocity = new Vector3(0.0f, 0.0f, 0.0f);
+        myCollider = gameObject.AddComponent<SphereCollider>();
+        myCollider.isTrigger = true;
+        myCollider.radius = radius;
+        
+
+        switch (gameObject.tag)
+        {
+            case "Assassin":
+                OnWander = true;
+                break;
+            case "Pedestrian":
+                //OnWander = true;
+                break;
+            case "Police":
+                //OnWander = true;
+                break;
+            case "Thief":
+                break;
+            case "User":
+                break;
+        }
     }
-	
-	void Update () {
+
+    private void OnTriggerEnter(Collider obj)
+    {
+        string myTag = gameObject.tag;
+        string victimTag = obj.gameObject.tag;
+        //What am I
+        switch (myTag)
+        {
+            case "Pedestrian":
+                //Who am I colliding with
+                switch (victimTag)
+                {
+                    case "Pedestrian":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is colliding with " + victimTag);
+                        break;
+                    case "Police":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is colliding with " + victimTag);
+                        break;
+                    case "Assassin":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is colliding with " + victimTag);
+                        break;
+                    case "Thief":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is colliding with " + victimTag);
+                        break;
+                    case "User":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is colliding with " + victimTag);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "Police":
+                //Who am I colliding with
+                switch (victimTag)
+                {
+                    case "Pedestrian":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is colliding with " + victimTag);
+                        break;
+                    case "Police":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is colliding with " + victimTag);
+                        break;
+                    case "Assassin":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is colliding with " + victimTag);
+                        break;
+                    case "Thief":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is colliding with " + victimTag);
+                        break;
+                    case "User":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is colliding with " + victimTag);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "Assassin":
+                //Who am I colliding with
+                switch (victimTag)
+                {
+                    case "Pedestrian":
+                        Debug.Log("Still works > " + obj.GetType());
+                        if(obj.GetType() == typeof(CapsuleCollider))
+                        {
+                            Debug.Log(myTag + " is colliding with " + victimTag);
+                            this.OnWander = false;
+                            this.TargetSeek = obj.gameObject;
+                            this.OnSeek = true;
+                        }
+                        break;
+                    case "Police":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is colliding with " + victimTag);
+                        break;
+                    case "Assassin":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is colliding with " + victimTag);
+                        break;
+                    case "Thief":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is colliding with " + victimTag);
+                        break;
+                    case "User":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is colliding with " + victimTag);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "Thief":
+                //Who am I colliding with
+                switch (victimTag)
+                {
+                    case "Pedestrian":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is colliding with " + victimTag);
+                        break;
+                    case "Police":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is colliding with " + victimTag);
+                        break;
+                    case "Assassin":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is colliding with " + victimTag);
+                        break;
+                    case "Thief":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is colliding with " + victimTag);
+                        break;
+                    case "User":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is colliding with " + victimTag);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "User":
+                //Who am I colliding with
+                switch (victimTag)
+                {
+                    case "Pedestrian":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is colliding with " + victimTag);
+                        break;
+                    case "Police":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is colliding with " + victimTag);
+                        break;
+                    case "Assassin":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is colliding with " + victimTag);
+                        break;
+                    case "Thief":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is colliding with " + victimTag);
+                        break;
+                    case "User":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is colliding with " + victimTag);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    private void OnTriggerExit(Collider obj)
+    {
+        string myTag = gameObject.tag;
+        string victimTag = obj.gameObject.tag;
+        //What am I
+        switch (myTag)
+        {
+            case "Pedestrian":
+                //Who is no longer colliding with me
+                switch (victimTag)
+                {
+                    case "Pedestrian":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                        break;
+                    case "Police":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                        break;
+                    case "Assassin":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                        break;
+                    case "Thief":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                        break;
+                    case "User":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "Police":
+                //Who is no longer colliding with me
+                switch (victimTag)
+                {
+                    case "Pedestrian":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                        break;
+                    case "Police":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                        break;
+                    case "Assassin":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                        break;
+                    case "Thief":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                        break;
+                    case "User":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "Assassin":
+                //Who is no longer colliding with me
+                switch (victimTag)
+                {
+                    case "Pedestrian":
+                        if (obj.GetType() == typeof(MeshCollider))
+                        {
+                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                            this.OnSeek = false;
+                            this.TargetSeek = null; //Necessary so trigger creates it's own WanderObj
+                            this.OnWander = true;
+                        }
+                        break;
+                    case "Police":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                        break;
+                    case "Assassin":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                        break;
+                    case "Thief":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                        break;
+                    case "User":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "Thief":
+                //Who is no longer colliding with me
+                switch (victimTag)
+                {
+                    case "Pedestrian":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                        break;
+                    case "Police":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                        break;
+                    case "Assassin":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                        break;
+                    case "Thief":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                        break;
+                    case "User":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "User":
+                //Who is no longer colliding with me
+                switch (victimTag)
+                {
+                    case "Pedestrian":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                        break;
+                    case "Police":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                        break;
+                    case "Assassin":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                        break;
+                    case "Thief":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                        break;
+                    case "User":
+                        if (obj.GetType() == typeof(MeshCollider))
+                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    void Update () {
         vn_Velocity = Vector3.zero;
 
         if (OnSeek)
@@ -396,5 +734,7 @@ public class GlobalMovement : MonoBehaviour {
     {
         Debug.DrawLine(transform.position, vc_Heading * 10.0f + transform.position, Color.red);
         Debug.DrawLine(transform.position, transform.forward * 10.0f + transform.position, Color.green);
+        Gizmos.DrawWireSphere(transform.position, radius);
+        Gizmos.color = Color.blue;
     }
 }
