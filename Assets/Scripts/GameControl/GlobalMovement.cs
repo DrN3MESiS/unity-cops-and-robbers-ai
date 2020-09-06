@@ -166,18 +166,28 @@ public class GlobalMovement : MonoBehaviour {
                 switch (victimTag)
                 {
                     case "Pedestrian":
-                        Debug.Log("Still works > " + obj.GetType());
                         if(obj.GetType() == typeof(CapsuleCollider))
                         {
                             Debug.Log(myTag + " is colliding with " + victimTag);
                             this.OnWander = false;
+                            this.TargetWander = null;
+                            this.TargetSeek = null;
                             this.TargetSeek = obj.gameObject;
                             this.OnSeek = true;
                         }
                         break;
                     case "Police":
                         if (obj.GetType() == typeof(CapsuleCollider))
+                        {
                             Debug.Log(myTag + " is colliding with " + victimTag);
+                            this.OnWander = false;
+                            this.TargetWander = null;
+                            this.TargetSeek = null;
+                            this.OnSeek = false;
+
+                            this.TargetFlee = obj.gameObject;
+                            this.OnFlee = true;
+                        }
                         break;
                     case "Assassin":
                         if (obj.GetType() == typeof(CapsuleCollider))
@@ -333,7 +343,16 @@ public class GlobalMovement : MonoBehaviour {
                         break;
                     case "Police":
                         if (obj.GetType() == typeof(CapsuleCollider))
+                        {
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                            this.TargetFlee = null;
+                            this.OnFlee = false;
+
+                            this.TargetWander = null;
+                            this.TargetSeek = null;
+                            this.OnSeek = false;
+                            this.OnWander = true;
+                        }
                         break;
                     case "Assassin":
                         if (obj.GetType() == typeof(CapsuleCollider))
@@ -433,7 +452,7 @@ public class GlobalMovement : MonoBehaviour {
         if (OnFlee)
         {
             if (TargetFlee != null)
-                vn_Velocity = vn_Velocity + Flee(TargetFlee.transform.position);
+                vel_Flee = Flee(TargetFlee.transform.position);
              else
                 Debug.Log("No hay un Target seleccionado para hacer Flee");
         }
@@ -441,10 +460,9 @@ public class GlobalMovement : MonoBehaviour {
         if(OnPursuit)
         {
             if(TargetPursuit != null)
-                EntityRB.velocity = Pursuit(TargetPursuit);
+                vel_Pursuit = Pursuit(TargetPursuit);
             else
                 Debug.Log("No hay un Target seleccionado para hacer Pursuit");
-
         }
 
         if (OnWander)
@@ -486,7 +504,7 @@ public class GlobalMovement : MonoBehaviour {
         if (OnOffsetPursuit)
         {
             if (TargetOffsetPursuit != null)
-                vn_Velocity = vn_Velocity + OffsetPursuit(TargetOffsetPursuit, offset);
+                vel_OffsetPursuit = OffsetPursuit(TargetOffsetPursuit, offset);
             else
                 Debug.Log("No hay un Target seleccionado para hacer OffsetPursuit");
         }
@@ -497,14 +515,13 @@ public class GlobalMovement : MonoBehaviour {
             {
                 if (Vector3.Distance(TargetArrival.transform.position, transform.position) > 1.0)
                 {
-                    vn_Velocity = vn_Velocity + Arrival(TargetArrival.transform.position);
+                    vel_Arrive = Arrival(TargetArrival.transform.position);
                 }
 
-                else vn_Velocity = vc_Velocity * -1.0f;
+                else vel_Arrive = vc_Velocity * -1.0f;
             } else
             {
                 Debug.Log("No hay un Target seleccionado para hacer Arrival");
-
             }
         }
 
@@ -604,8 +621,6 @@ public class GlobalMovement : MonoBehaviour {
         DesiredVelocity = Vector3.ClampMagnitude(DesiredVelocity, s_MaxSpeed);
 
         return (DesiredVelocity - vc_Velocity);
-
-
     }
 
     //******************************************************************
