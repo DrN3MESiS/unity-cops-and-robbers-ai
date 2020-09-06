@@ -110,23 +110,23 @@ public class GlobalMovement : MonoBehaviour {
                 switch (victimTag)
                 {
                     case "Pedestrian":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
                         break;
                     case "Police":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
                         break;
                     case "Assassin":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
                         break;
                     case "Thief":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
                         break;
                     case "User":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
                         break;
                     default:
@@ -138,23 +138,23 @@ public class GlobalMovement : MonoBehaviour {
                 switch (victimTag)
                 {
                     case "Pedestrian":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
                         break;
                     case "Police":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
                         break;
                     case "Assassin":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
                         break;
                     case "Thief":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
                         break;
                     case "User":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
                         break;
                     default:
@@ -176,19 +176,19 @@ public class GlobalMovement : MonoBehaviour {
                         }
                         break;
                     case "Police":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
                         break;
                     case "Assassin":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
                         break;
                     case "Thief":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
                         break;
                     case "User":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
                         break;
                     default:
@@ -200,23 +200,23 @@ public class GlobalMovement : MonoBehaviour {
                 switch (victimTag)
                 {
                     case "Pedestrian":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
                         break;
                     case "Police":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
                         break;
                     case "Assassin":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
                         break;
                     case "Thief":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
                         break;
                     case "User":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
                         break;
                     default:
@@ -228,23 +228,23 @@ public class GlobalMovement : MonoBehaviour {
                 switch (victimTag)
                 {
                     case "Pedestrian":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
                         break;
                     case "Police":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
                         break;
                     case "Assassin":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
                         break;
                     case "Thief":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
                         break;
                     case "User":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
                         break;
                     default:
@@ -267,23 +267,23 @@ public class GlobalMovement : MonoBehaviour {
                 switch (victimTag)
                 {
                     case "Pedestrian":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                         break;
                     case "Police":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                         break;
                     case "Assassin":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                         break;
                     case "Thief":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                         break;
                     case "User":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                         break;
                     default:
@@ -295,23 +295,23 @@ public class GlobalMovement : MonoBehaviour {
                 switch (victimTag)
                 {
                     case "Pedestrian":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                         break;
                     case "Police":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                         break;
                     case "Assassin":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                         break;
                     case "Thief":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                         break;
                     case "User":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                         break;
                     default:
@@ -323,7 +323,7 @@ public class GlobalMovement : MonoBehaviour {
                 switch (victimTag)
                 {
                     case "Pedestrian":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                         {
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                             this.OnSeek = false;
@@ -332,19 +332,19 @@ public class GlobalMovement : MonoBehaviour {
                         }
                         break;
                     case "Police":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                         break;
                     case "Assassin":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                         break;
                     case "Thief":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                         break;
                     case "User":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                         break;
                     default:
@@ -356,23 +356,23 @@ public class GlobalMovement : MonoBehaviour {
                 switch (victimTag)
                 {
                     case "Pedestrian":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                         break;
                     case "Police":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                         break;
                     case "Assassin":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                         break;
                     case "Thief":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                         break;
                     case "User":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                         break;
                     default:
@@ -384,23 +384,23 @@ public class GlobalMovement : MonoBehaviour {
                 switch (victimTag)
                 {
                     case "Pedestrian":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                         break;
                     case "Police":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                         break;
                     case "Assassin":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                         break;
                     case "Thief":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                         break;
                     case "User":
-                        if (obj.GetType() == typeof(MeshCollider))
+                        if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                         break;
                     default:
