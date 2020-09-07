@@ -22,7 +22,7 @@ public class GlobalMovement : MonoBehaviour {
     public GameObject TargetFlee;
     public GameObject TargetPursuit;
     public GameObject TargetEvade;
-    public List<GameObject> TargetPathFollow;
+    public Point TargetPathFollow;
     public GameObject TargetArrival;
     public GameObject TargetWander;
     public GameObject TargetOffsetPursuit;
@@ -57,16 +57,17 @@ public class GlobalMovement : MonoBehaviour {
     //Offset Pursuit
     float offset = 2.0f;
     //PathFollow
-    public List<Point> pathPoints;
+    public static List<Point> pathPoints = new List<Point>();
     public List<Vector3> pathVectors = new List<Vector3>();
     //Wander
     public bool isGamePath = true;
     public float speed = 1.0f;
-    private Point curr;
 
     /***/
     float elapsed = 0f;
 
+    //Thief
+    public int jewls = 0;
 
     /* Functions */
     bool debug = false;
@@ -92,6 +93,7 @@ public class GlobalMovement : MonoBehaviour {
                 //OnWander = true;
                 break;
             case "Thief":
+                StartPathFollow();
                 break;
             case "User":
                 break;
@@ -208,21 +210,23 @@ public class GlobalMovement : MonoBehaviour {
                 //Who am I colliding with
                     case "Pedestrian":
                         if (obj.GetType() == typeof(CapsuleCollider))
+                        {
                             Debug.Log(myTag + " is colliding with " + victimTag);
+                            this.TargetEvade = obj.gameObject;
+                            this.OnEvade = true;
+                        }
                         break;
                     case "Police":
+                    case "User":
                         if (obj.GetType() == typeof(CapsuleCollider))
+                        {
                             Debug.Log(myTag + " is colliding with " + victimTag);
+                            ResetProperties();
+                            this.TargetFlee = obj.gameObject;
+                            this.OnFlee = true;
+                        }                            
                         break;
                     case "Assassin":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                        break;
-                    case "Thief":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                        break;
-                    case "User":
                         if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
                         break;
@@ -248,7 +252,10 @@ public class GlobalMovement : MonoBehaviour {
                         break;
                     case "Thief":
                         if (obj.GetType() == typeof(CapsuleCollider))
+                        {
                             Debug.Log(myTag + " is colliding with " + victimTag);
+                            obj.gameObject.tag = "Untagged";
+                        }
                         break;
                     case "User":
                         if (obj.GetType() == typeof(CapsuleCollider))
@@ -367,21 +374,22 @@ public class GlobalMovement : MonoBehaviour {
                 //Who is no longer colliding with me
                     case "Pedestrian":
                         if (obj.GetType() == typeof(CapsuleCollider))
+                        {
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                            ResetEvade();
+                        }
                         break;
                     case "Police":
+                    case "User":
                         if (obj.GetType() == typeof(CapsuleCollider))
+                        {
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                            ResetFlee();
+                            //StartPathFollow();
+                            this.OnPathFollow = true;
+                        }
                         break;
                     case "Assassin":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                        break;
-                    case "Thief":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                        break;
-                    case "User":
                         if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                         break;
@@ -423,6 +431,14 @@ public class GlobalMovement : MonoBehaviour {
     }
 
     void Update () {
+
+        if(OnEvade)
+        {
+            if(TargetEvade != null)
+            {
+                vel_Evade = Evade(TargetEvade);
+            }
+        }
 
         if (OnSeek)
         {
@@ -524,32 +540,18 @@ public class GlobalMovement : MonoBehaviour {
 
         if (OnPathFollow)
         {
-            if (isGamePath)
+            if(TargetPathFollow != null)
             {
-                foreach (GameObject dot in GameObject.FindGameObjectsWithTag("Point"))
+                if (Vector3.Distance(TargetPathFollow.position, transform.position) > 1.0)
+                    vel_Seek = Path();
+                //else
+                //vel_Seek = vc_Velocity * -1.0f;
+                if (TargetPathFollow.withinRadius(transform.position))
                 {
-                    Point point = dot.GetComponent<Point>();
-                    point.position = dot.transform.position;
-                    pathPoints.Add(point);
+                    jewls++;
+                    StartPathFollow();
                 }
-            }
-            else
-            {
-                foreach (Vector3 dot in pathVectors)
-                {
-                    Point point = new Point(dot);
-                    pathPoints.Add(point);
-                }
-            }
-            if (pathPoints.Count > 0)
-            {
-                curr = pathPoints[0];
-                pathPoints.RemoveAt(0);
-            }
-            else
-            {
-                OnPathFollow = false;
-            }
+            }           
         }
 
         vc_Velocity = Vector3.zero;
@@ -588,7 +590,6 @@ public class GlobalMovement : MonoBehaviour {
 
         if (direction.magnitude < 1.0f)
         {
-
             return (Vector3.zero);
         }
         direction.Normalize();
@@ -602,6 +603,33 @@ public class GlobalMovement : MonoBehaviour {
         Vector3 pos = Vector3.MoveTowards(transform.position, targetSeek, speed * Time.fixedDeltaTime);
         EntityRB.MovePosition(pos);
         transform.LookAt(targetSeek);
+    }
+
+    //******************************************************************
+    public Vector3 Path()
+    {
+        if (TargetPathFollow.withinRadius(transform.position))
+        {
+            StartPathFollow();
+        }
+
+        Vector3 targetSeek = TargetPathFollow.position;
+        Vector3 direction;
+
+        direction = targetSeek - transform.position;
+        direction.y = 0;
+
+        if (direction.magnitude < 1.0f)
+        {
+            return (Vector3.zero);
+        }
+        direction.Normalize();
+        Vector3 DesiredVelocity = direction * s_MaxSpeed;
+        DesiredVelocity = Vector3.ClampMagnitude(DesiredVelocity, s_MaxSpeed);
+
+        //return (DesiredVelocity - vc_Velocity);
+
+        return (DesiredVelocity);
     }
 
     //******************************************************************
@@ -727,24 +755,6 @@ public class GlobalMovement : MonoBehaviour {
 
     }
 
-    //******************************************************************
-    public Vector3 Path()
-    {
-        if (curr.withinRadius(transform.position))
-        {
-            if (pathPoints.Count > 0)
-            {
-                curr = pathPoints[0];
-                pathPoints.RemoveAt(0);
-            }
-            else
-            {
-                OnPathFollow = false;
-            }
-        }
-        return Vector3.MoveTowards(transform.position, curr.position, speed * Time.deltaTime);
-    }
-
     //*************************************************************************
     void OnDrawGizmos()
     {
@@ -776,7 +786,6 @@ public class GlobalMovement : MonoBehaviour {
         this.OnEvade = false;
         vel_Evade = Vector3.zero;
 
-        this.TargetPathFollow = null;
         this.OnPathFollow = false;
 
 
@@ -828,6 +837,22 @@ public class GlobalMovement : MonoBehaviour {
         this.TargetPathFollow = null;
         this.OnPathFollow = false;
     }
+
+
+    private void StartPathFollow()
+    {
+        if (pathPoints.Count > 0)
+        {
+            this.TargetPathFollow = pathPoints[0];
+            pathPoints.RemoveAt(0);
+        }
+        else
+        {
+            this.TargetPathFollow = null;
+            ResetProperties();
+        }
+    }
+
     private void ResetPursuit()
     {
         this.TargetPursuit = null;
@@ -840,6 +865,7 @@ public class GlobalMovement : MonoBehaviour {
         this.OnOffsetPursuit = false;
         vel_OffsetPursuit = Vector3.zero;
     }
+
 
 }
 

@@ -20,7 +20,9 @@ public class Point : MonoBehaviour
 
     public bool withinRadius(Vector3 player)
     {
-        if(Vector3.Distance(player, position) <= radius){
+        if (Vector3.Distance(player, position) <= radius)
+        {
+            Destroy(gameObject);
             return true;
         }
         return false;
