@@ -87,7 +87,7 @@ public class GlobalMovement : MonoBehaviour {
                 OnWander = true;
                 break;
             case "Pedestrian":
-                //OnWander = true;
+                OnWander = true;
                 break;
             case "Police":
                 //OnWander = true;
