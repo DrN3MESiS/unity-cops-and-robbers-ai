@@ -113,7 +113,9 @@ public class GlobalMovement : MonoBehaviour {
                 //Who am I colliding with
                     case "Pedestrian":
                         if (obj.GetType() == typeof(CapsuleCollider))
+                        {
                             Debug.Log(myTag + " is colliding with " + victimTag);
+                        }
                         break;
                     case "Police":
                         if (obj.GetType() == typeof(CapsuleCollider))
@@ -121,7 +123,14 @@ public class GlobalMovement : MonoBehaviour {
                         break;
                     case "Assassin":
                         if (obj.GetType() == typeof(CapsuleCollider))
+                        {
                             Debug.Log(myTag + " is colliding with " + victimTag);
+                            //Debug.Log("Pedestrian should stop");
+                            //ResetWander();
+                            ResetProperties();
+                            this.TargetFlee = obj.gameObject;
+                            this.OnFlee = true;
+                        }
                         break;
                     case "Thief":
                         if (obj.GetType() == typeof(CapsuleCollider))
@@ -221,6 +230,7 @@ public class GlobalMovement : MonoBehaviour {
                         if (obj.GetType() == typeof(CapsuleCollider))
                         {
                             Debug.Log(myTag + " is colliding with " + victimTag);
+                            Debug.Log(myTag + " is colliding with " + victimTag);
                             ResetProperties();
                             this.TargetFlee = obj.gameObject;
                             this.OnFlee = true;
@@ -290,7 +300,11 @@ public class GlobalMovement : MonoBehaviour {
                         break;
                     case "Assassin":
                         if (obj.GetType() == typeof(CapsuleCollider))
+                        {
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                            ResetProperties();
+                            OnWander = true;
+                        }
                         break;
                     case "Thief":
                         if (obj.GetType() == typeof(CapsuleCollider))
@@ -787,7 +801,6 @@ public class GlobalMovement : MonoBehaviour {
         vel_Evade = Vector3.zero;
 
         this.OnPathFollow = false;
-
 
         this.TargetPursuit = null;
         this.OnPursuit = false;
