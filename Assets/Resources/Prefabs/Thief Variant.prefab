@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: radius
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 1035793978527714185, guid: 7702a8c6f2c0e6646bdee6c74cb81776,
+        type: 3}
+      propertyPath: OnPathFollow
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2266926898326423270, guid: 7702a8c6f2c0e6646bdee6c74cb81776,
         type: 3}
       propertyPath: radius

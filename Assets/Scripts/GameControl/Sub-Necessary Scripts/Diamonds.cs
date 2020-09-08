@@ -15,7 +15,7 @@ public class Diamonds : MonoBehaviour
             GameObject newDiamond = Instantiate(diamond);
             float x = Random.Range(-boundaries.x, boundaries.x);
             float z = Random.Range(-boundaries.y, boundaries.y);
-            newDiamond.transform.position = new Vector3(x, 1, z);
+            newDiamond.transform.position = new Vector3(x, diamond.transform.position.y, z);
         }
 
 
