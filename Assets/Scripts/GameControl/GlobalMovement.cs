@@ -93,6 +93,8 @@ public class GlobalMovement : MonoBehaviour {
                 //OnWander = true;
                 break;
             case "Thief":
+                OnPathFollow = true;
+                isGamePath = true;
                 StartPathFollow();
                 break;
             case "User":
