@@ -92,5 +92,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 998922e9075f5334abbe7a3581c7110d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  position: {x: 0, y: 0, z: 0}
+  position: {x: 0, y: 1, z: 0}
   radius: 0.3
