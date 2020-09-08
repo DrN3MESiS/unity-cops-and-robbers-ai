@@ -4,7 +4,7 @@ using UnityEngine;
 public class GlobalMovement : MonoBehaviour {
     /* Public Properties*/
     public float s_rotSpeed = 1.5f;
-    public float s_MaxSpeed = 8.0f;
+    public float s_MaxSpeed = 16.0f;
     public float s_MinSpeed = 1.0f;
 
     /* Triggers */
@@ -61,7 +61,7 @@ public class GlobalMovement : MonoBehaviour {
     public List<Vector3> pathVectors = new List<Vector3>();
     //Wander
     public bool isGamePath = true;
-    public float speed = 1.0f;
+    public float speed = 10.0f;
 
     /***/
     float elapsed = 0f;
@@ -93,11 +93,12 @@ public class GlobalMovement : MonoBehaviour {
                 //OnWander = true;
                 break;
             case "Thief":
+                OnPathFollow = true;
+                isGamePath = true;
                 StartPathFollow();
                 break;
-            case "User":
-                break;
         }
+
     }
 
     private void OnTriggerEnter(Collider obj)
@@ -492,7 +493,6 @@ public class GlobalMovement : MonoBehaviour {
 
         if (OnWander)
         {
-            speed = 10.0f;
             if(TargetWander != null)
             {
                 elapsed += Time.deltaTime;
@@ -574,6 +574,7 @@ public class GlobalMovement : MonoBehaviour {
         {
             Debug.Log("vc_Velocity("+vc_Velocity+") = " + "vel_Seek("+vel_Seek+") + " + "vel_Arrive(" + vel_Arrive + ") + " + "vel_Evade(" + vel_Evade + ") + " + "vel_Flee(" + vel_Flee + ") + " + "vel_OffsetPursuit(" + vel_OffsetPursuit + ") + " + "vel_Pursuit(" + vel_Pursuit + ") + " + "vel_Wander(" + vel_Wander + ")");
         }
+
         vc_Velocity = Vector3.ClampMagnitude(vc_Velocity, s_MaxSpeed);
         newPosition = transform.position + (vc_Velocity * Time.deltaTime);
         if (vc_Velocity.magnitude > s_MinSpeed) transform.position = newPosition;
