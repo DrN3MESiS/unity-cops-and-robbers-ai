@@ -338,7 +338,7 @@ public class GlobalMovement : MonoBehaviour {
                                 if(obj.gameObject.GetComponent("OnFlee") ){
                                     ResetProperties();
                                     TargetSeek = obj.gameObject;
-                                    OnSeek2 = true;
+                                    OnSeek = true;
                                  }
                             }
                         }
