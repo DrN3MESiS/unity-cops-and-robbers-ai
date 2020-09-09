@@ -359,13 +359,11 @@ public class GlobalMovement : MonoBehaviour {
                         if(obj.GetType() == typeof(CapsuleCollider))
                         {
                             Debug.Log(myTag + " is colliding with " + victimTag);
-                            if (!this.OnFlee)
+                            if (!OnFlee)
                             {
                                 ResetProperties();
-                                //this.TargetArrival = obj.gameObject;
-                                //this.OnArrival = true;
-                                this.TargetSeek = obj.gameObject;
-                                this.OnSeek = true;
+                                TargetSeek = obj.gameObject;
+                                OnSeek = true;
                             }
                         }
                         break;
@@ -523,10 +521,13 @@ public class GlobalMovement : MonoBehaviour {
                     case "Pedestrian":
                         if (obj.GetType() == typeof(CapsuleCollider))
                         {
-                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                            if(!OnSeek || TargetSeek == null)
+                            {
+                                Debug.Log(myTag + " is no longer colliding with " + victimTag);
                             
-                            ResetSeek();
-                            this.OnWander = true;
+                                ResetSeek();
+                                this.OnWander = true;
+                            }
                         }
                         break;
                     case "Police":
