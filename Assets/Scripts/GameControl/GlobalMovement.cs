@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -71,6 +72,9 @@ public class GlobalMovement : MonoBehaviour {
     //Thief
     public int jewls = 0;
 
+    //All policemen
+    private GameObject[] allPolice;
+
     /* Functions */
     bool debug = false;
     void Start () {
@@ -93,6 +97,8 @@ public class GlobalMovement : MonoBehaviour {
                 break;
             case "Pedestrian":
                 OnWander = true;
+                allPolice = GameObject.FindGameObjectsWithTag("Police");
+                print(allPolice[0].transform.position);
                 break;
             case "Police":
                 defaultSpeed = 1.6f;
