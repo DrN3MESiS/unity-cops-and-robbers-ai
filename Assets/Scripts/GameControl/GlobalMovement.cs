@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GlobalMovement : MonoBehaviour {
@@ -25,7 +25,7 @@ public class GlobalMovement : MonoBehaviour {
     public Point TargetPathFollow;
     public GameObject TargetArrival;
     public GameObject TargetWander;
-    public GameObject TargetOffsetPursuit;
+    public Vector3 TargetOffsetPursuit =Vector3.zero;
 
     public float s_panicDist;
     public float pursuitDist;
@@ -96,7 +96,7 @@ public class GlobalMovement : MonoBehaviour {
                 break;
             case "Police":
                 defaultSpeed = 2.0f;
-                //OnWander = true;
+                OnWander = true;
                 break;
             case "Thief":
                 defaultSpeed = 1.5f;
@@ -321,10 +321,18 @@ public class GlobalMovement : MonoBehaviour {
                     case "Assassin":
                         if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
+                            if(!OnPursuit){
+                            ResetProperties();
+                            TargetPursuit = obj.gameObject;
+                            OnPursuit = true;}
                         break;
                     case "Thief":
                         if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is colliding with " + victimTag);
+                            if(!OnPursuit){
+                            ResetProperties();
+                            TargetPursuit = obj.gameObject;
+                            OnPursuit = true;}
                         break;
                     case "User":
                         if (obj.GetType() == typeof(CapsuleCollider))
@@ -466,10 +474,18 @@ public class GlobalMovement : MonoBehaviour {
                     case "Assassin":
                         if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                            if(OnPursuit){
+                            ResetProperties();
+                            TargetOffsetPursuit = obj.gameObject.transform.position;
+                            OnOffsetPursuit = true;}
                         break;
                     case "Thief":
                         if (obj.GetType() == typeof(CapsuleCollider))
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                            if(OnPursuit){
+                            ResetProperties();
+                            TargetOffsetPursuit = obj.gameObject.transform.position;
+                            OnOffsetPursuit = true;}
                         break;
                     case "User":
                         if (obj.GetType() == typeof(CapsuleCollider))
@@ -661,9 +677,14 @@ public class GlobalMovement : MonoBehaviour {
 
         if (OnOffsetPursuit)
         {
-            if (TargetOffsetPursuit != null)
-                vel_OffsetPursuit = OffsetPursuit(TargetOffsetPursuit, offset);
-            else
+            if (TargetOffsetPursuit != Vector3.zero){
+                if (TargetOffsetPursuit != transform.position){
+                vel_OffsetPursuit = OffsetPursuit(TargetOffsetPursuit, offset);}
+                else{
+                    ResetProperties();
+                    OnWander = true;
+                }
+            }else
                 Debug.Log("No hay un Target seleccionado para hacer OffsetPursuit");
         }
 
@@ -865,16 +886,13 @@ public class GlobalMovement : MonoBehaviour {
 
         CustomSeek(targetFuture);
     }
-    public Vector3 OffsetPursuit(GameObject targetOffsetPursuit, float offset)
+    public Vector3 OffsetPursuit(Vector3 targetOffsetPursuit, float offset)
     {
-        moveVelSimple objecto = targetOffsetPursuit.GetComponent<moveVelSimple>();
-        Vector3 targetFuture = transform.position + objecto.vc_Heading * offset;
-
-
-        float distance = Vector3.Distance(transform.position, targetOffsetPursuit.transform.position);
+        Vector3 targetFuture = transform.position + targetOffsetPursuit * offset;
+        float distance = Vector3.Distance(transform.position, targetOffsetPursuit);
         print(distance);
-        if (distance > offset) return Seek(TargetOffsetPursuit.transform.position);
-        if (distance < offset) targetFuture = transform.position + objecto.vc_Heading * offset * 0.75f; //Slow down
+        if (distance > offset) return Seek(TargetOffsetPursuit);
+        if (distance < offset) targetFuture = transform.position + targetFuture * offset * 0.75f; //Slow down
 
 
         return Seek(targetFuture);
@@ -940,7 +958,7 @@ public class GlobalMovement : MonoBehaviour {
         this.OnPursuit = false;
         vel_Pursuit = Vector3.zero;
 
-        this.TargetOffsetPursuit = null;
+        this.TargetOffsetPursuit = Vector3.zero;
         this.OnOffsetPursuit = false;
         vel_OffsetPursuit = Vector3.zero;
     }
@@ -1008,7 +1026,7 @@ public class GlobalMovement : MonoBehaviour {
     }
     private void ResetOffsetPursuit()
     {
-        this.TargetOffsetPursuit = null;
+        this.TargetOffsetPursuit = Vector3.zero;
         this.OnOffsetPursuit = false;
         vel_OffsetPursuit = Vector3.zero;
     }
