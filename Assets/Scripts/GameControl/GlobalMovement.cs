@@ -457,6 +457,7 @@ public class GlobalMovement : MonoBehaviour {
                         {
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                             ResetProperties();
+                            ResetSeek();
                             OnWander = true;
                         }
                         break;
@@ -533,6 +534,7 @@ public class GlobalMovement : MonoBehaviour {
                         {
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                             ResetFlee();
+                            ResetSeek();
                             this.OnWander = true;
                         }
                         break;
@@ -546,7 +548,12 @@ public class GlobalMovement : MonoBehaviour {
                         break;
                     case "User":
                         if (obj.GetType() == typeof(CapsuleCollider))
+                        {
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
+                            ResetFlee();
+                            ResetSeek();
+                            this.OnWander = true;
+                        }
                         break;
                     default:
                         break;
