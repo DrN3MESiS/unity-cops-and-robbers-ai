@@ -74,6 +74,8 @@ public class GlobalMovement : MonoBehaviour {
 
     //All policemen
     private GameObject[] allPolice;
+    private float nearPoliceDistance = 999999999999.9f;
+    private GameObject nearPolice;
 
     /* Functions */
     bool debug = false;
@@ -98,7 +100,7 @@ public class GlobalMovement : MonoBehaviour {
             case "Pedestrian":
                 OnWander = true;
                 allPolice = GameObject.FindGameObjectsWithTag("Police");
-                print(allPolice[0].transform.position);
+                //print(allPolice[0].transform.position);
                 break;
             case "Police":
                 defaultSpeed = 1.6f;
@@ -298,6 +300,16 @@ public class GlobalMovement : MonoBehaviour {
                             ResetProperties();
                             this.TargetFlee = obj.gameObject;
                             this.OnFlee = true;
+                            foreach(GameObject police in allPolice)
+                            {
+                                if (Vector3.Distance(gameObject.transform.position, police.transform.position) < nearPoliceDistance)
+                                {
+                                    nearPolice = police;
+                                    nearPoliceDistance = Vector3.Distance(gameObject.transform.position, police.transform.position);
+                                }
+                            }
+                            this.TargetSeek = nearPolice;
+                            this.OnSeek = true;
                         }
                         break;
                     case "Thief":
@@ -462,6 +474,7 @@ public class GlobalMovement : MonoBehaviour {
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
                             ResetProperties();
                             ResetSeek();
+                            ResetWander();
                             OnWander = true;
                         }
                         break;
@@ -906,7 +919,7 @@ public class GlobalMovement : MonoBehaviour {
     private void Wander(GameObject target)
     {
         target.transform.position = transform.position;
-        target.transform.rotation = Quaternion.Euler(0, Random.Range(sAngle, fAngle), 0);
+        target.transform.rotation = Quaternion.Euler(0, UnityEngine.Random.Range(sAngle, fAngle), 0);
         target.transform.Translate(Vector3.forward * distance);
     }
 
