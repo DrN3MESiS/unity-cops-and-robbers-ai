@@ -89,7 +89,7 @@ public class GlobalMovement : MonoBehaviour {
         {
             case "Assassin":
                 defaultSpeed = 1.3f;
-                //OnWander = true;
+                OnWander = true;
                 break;
             case "Pedestrian":
                 OnWander = true;

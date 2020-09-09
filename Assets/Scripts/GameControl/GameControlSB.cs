@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameControlSB : MonoBehaviour {
-    public GameObject myObject;
-
-    public GameObject targetSeek;
-    public GameObject targetFlee;
 
     public Vector2 boundaries;
-    public Vector2[] initsThief;
+    public GameObject[] initsThief;
+    public GameObject[] initsAssassin;
+    public GameObject[] initsPolice;
+    public GameObject[] initsPedestrian;
     public GameObject thief;
+    public GameObject assassin;
+    public GameObject police;
+    public GameObject pedestrian;
     public int thiefNumber = 10;
+    public int assassinNumber = 10;
+    public int policeNumber = 10;
+    public int pedestrianNumber = 20;
     // Use this for initialization
     void Start () {
         /*float spos = 10.0f;
@@ -24,13 +29,47 @@ public class GameControlSB : MonoBehaviour {
                 mymove.OnSeek = true;
             }*/
 
-        foreach(Vector2 initThief in initsThief)
+        foreach(GameObject initThief in initsThief)
         {
+            Vector2 init = new Vector2(initThief.transform.position.x, initThief.transform.position.z);
             for (int i = 0; i < thiefNumber; i++)
             {
-                GameObject newObj = Instantiate(thief, new Vector3(initThief.x + Random.Range(-boundaries.x, boundaries.x), thief.transform.position.y, initThief.y + Random.Range(-boundaries.y, boundaries.y)), Quaternion.identity);
+                GameObject newObj = Instantiate(thief, new Vector3(init.x + Random.Range(-boundaries.x, boundaries.x), thief.transform.position.y, init.y + Random.Range(-boundaries.y, boundaries.y)), Quaternion.identity);
                 newObj.tag = "Thief";
             }
+        }
+
+        foreach (GameObject initgb in initsAssassin)
+        {
+
+            Vector2 init = new Vector2(initgb.transform.position.x, initgb.transform.position.z);
+            for (int i = 0; i < assassinNumber; i++)
+            {
+                GameObject newObj = Instantiate(assassin, new Vector3(init.x + Random.Range(-boundaries.x, boundaries.x), thief.transform.position.y, init.y + Random.Range(-boundaries.y, boundaries.y)), Quaternion.identity);
+                newObj.tag = "Assassin";
+            }
+        }
+
+        foreach (GameObject initgb in initsPolice)
+        {
+            Vector2 init = new Vector2(initgb.transform.position.x, initgb.transform.position.z);
+            for (int i = 0; i < policeNumber; i++)
+            {
+                GameObject newObj = Instantiate(police, new Vector3(init.x + Random.Range(-boundaries.x, boundaries.x), thief.transform.position.y, init.y + Random.Range(-boundaries.y, boundaries.y)), Quaternion.identity);
+                newObj.tag = "Police";
+            }
+
+        }
+
+        foreach (GameObject initgb in initsPedestrian)
+        {
+            Vector2 init = new Vector2(initgb.transform.position.x, initgb.transform.position.z);
+            for (int i = 0; i < pedestrianNumber; i++)
+            {
+                GameObject newObj = Instantiate(pedestrian, new Vector3(init.x + Random.Range(-boundaries.x, boundaries.x), thief.transform.position.y, init.y + Random.Range(-boundaries.y, boundaries.y)), Quaternion.identity);
+                newObj.tag = "Pedestrian";
+            }
+
         }
     }
 	
