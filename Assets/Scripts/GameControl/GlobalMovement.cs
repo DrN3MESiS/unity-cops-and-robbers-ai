@@ -316,9 +316,20 @@ public class GlobalMovement : MonoBehaviour {
                 switch (victimTag)
                 {
                 //Who am I colliding with
-                    case "Pedestrian":
+                     case "Pedestrian":
                         if (obj.GetType() == typeof(CapsuleCollider))
+                            if (obj.GetType() == typeof(CapsuleCollider))
+                        {
                             Debug.Log(myTag + " is colliding with " + victimTag);
+                            if(OnWander)
+                            {
+                                if(obj.gameObject.GetComponent("OnFlee") ){
+                                    ResetProperties();
+                                    TargetSeek = obj.gameObject;
+                                    OnSeek2 = true;
+                                 }
+                            }
+                        }
                         break;
                     case "Police":
                         if (obj.GetType() == typeof(CapsuleCollider))
