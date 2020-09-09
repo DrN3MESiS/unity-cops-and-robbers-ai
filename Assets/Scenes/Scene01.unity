@@ -420,7 +420,7 @@ PrefabInstance:
     - target: {fileID: 5862856755840907296, guid: 13b1b2090017ea0499ec6b817cd04cea,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.08
+      value: -9.4
       objectReference: {fileID: 0}
     - target: {fileID: 5862856755840907296, guid: 13b1b2090017ea0499ec6b817cd04cea,
         type: 3}
@@ -430,7 +430,7 @@ PrefabInstance:
     - target: {fileID: 5862856755840907296, guid: 13b1b2090017ea0499ec6b817cd04cea,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 29.6
+      value: 47.2
       objectReference: {fileID: 0}
     - target: {fileID: 5862856755840907296, guid: 13b1b2090017ea0499ec6b817cd04cea,
         type: 3}
@@ -851,12 +851,9 @@ MonoBehaviour:
   myObject: {fileID: 0}
   targetSeek: {fileID: 0}
   targetFlee: {fileID: 0}
-  boundaries: {x: 10, y: 10}
-  initsThief:
-  - {x: 50, y: 50}
-  - {x: 50, y: -50}
-  - {x: -20, y: -20}
-  thief: {fileID: 2084091066839009385, guid: 2b03048a020dbc240bc3cfe73cbc5c34, type: 3}
+  boundaries: {x: 0, y: 0}
+  initsThief: []
+  thief: {fileID: 0}
   thiefNumber: 10
 --- !u!1001 &979880884
 PrefabInstance:

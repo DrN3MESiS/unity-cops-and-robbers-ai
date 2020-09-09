@@ -88,18 +88,18 @@ public class GlobalMovement : MonoBehaviour {
         switch (gameObject.tag)
         {
             case "Assassin":
-                defaultSpeed = 1.5f;
-                OnWander = true;
+                defaultSpeed = 1.3f;
+                //OnWander = true;
                 break;
             case "Pedestrian":
                 OnWander = true;
                 break;
             case "Police":
-                defaultSpeed = 2.0f;
+                defaultSpeed = 1.6f;
                 OnWander = true;
                 break;
             case "Thief":
-                defaultSpeed = 1.5f;
+                defaultSpeed = 1.3f;
                 OnPathFollow = true;
                 isGamePath = true;
                 StartPathFollow();
@@ -320,11 +320,15 @@ public class GlobalMovement : MonoBehaviour {
                         break;
                     case "Assassin":
                         if (obj.GetType() == typeof(CapsuleCollider))
+                        {
                             Debug.Log(myTag + " is colliding with " + victimTag);
-                            if(!OnPursuit){
-                            ResetProperties();
-                            TargetPursuit = obj.gameObject;
-                            OnPursuit = true;}
+                            if(!OnPursuit)
+                            {
+                                ResetProperties();
+                                TargetPursuit = obj.gameObject;
+                                OnPursuit = true;
+                            }
+                        }
                         break;
                     case "Thief":
                         if (obj.GetType() == typeof(CapsuleCollider))
