@@ -332,11 +332,16 @@ public class GlobalMovement : MonoBehaviour {
                         break;
                     case "Thief":
                         if (obj.GetType() == typeof(CapsuleCollider))
+                        {
                             Debug.Log(myTag + " is colliding with " + victimTag);
-                            if(!OnPursuit){
-                            ResetProperties();
-                            TargetPursuit = obj.gameObject;
-                            OnPursuit = true;}
+                            if(!OnPursuit)
+                            {
+                                ResetProperties();
+                                TargetPursuit = obj.gameObject;
+                                OnPursuit = true;
+                            }
+
+                        }
                         break;
                     case "User":
                         if (obj.GetType() == typeof(CapsuleCollider))
@@ -383,7 +388,12 @@ public class GlobalMovement : MonoBehaviour {
                         break;
                     case "User":
                         if (obj.GetType() == typeof(CapsuleCollider))
+                        {
                             Debug.Log(myTag + " is colliding with " + victimTag);
+                            ResetProperties();
+                            this.TargetFlee = obj.gameObject;
+                            this.OnFlee = true;
+                        }
                         break;
                     default:
                         break;
@@ -405,7 +415,6 @@ public class GlobalMovement : MonoBehaviour {
                     case "User":
                         if (obj.GetType() == typeof(CapsuleCollider))
                         {
-                            Debug.Log(myTag + " is colliding with " + victimTag);
                             Debug.Log(myTag + " is colliding with " + victimTag);
                             ResetProperties();
                             this.TargetFlee = obj.gameObject;
@@ -477,19 +486,26 @@ public class GlobalMovement : MonoBehaviour {
                         break;
                     case "Assassin":
                         if (obj.GetType() == typeof(CapsuleCollider))
+                        {
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                            if(OnPursuit){
-                            ResetProperties();
-                            TargetOffsetPursuit = obj.gameObject.transform.position;
-                            OnOffsetPursuit = true;}
+                            if (OnPursuit) {
+                                ResetProperties();
+                                TargetOffsetPursuit = obj.gameObject.transform.position;
+                                OnOffsetPursuit = true;
+                            }
+                        }
                         break;
                     case "Thief":
                         if (obj.GetType() == typeof(CapsuleCollider))
+                        {
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                            if(OnPursuit){
-                            ResetProperties();
-                            TargetOffsetPursuit = obj.gameObject.transform.position;
-                            OnOffsetPursuit = true;}
+                            if (OnPursuit)
+                            {
+                                ResetProperties();
+                                TargetOffsetPursuit = obj.gameObject.transform.position;
+                                OnOffsetPursuit = true;
+                            }
+                        }
                         break;
                     case "User":
                         if (obj.GetType() == typeof(CapsuleCollider))
@@ -507,7 +523,7 @@ public class GlobalMovement : MonoBehaviour {
                         if (obj.GetType() == typeof(CapsuleCollider))
                         {
                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                            //ResetArrival();
+                            
                             ResetSeek();
                             this.OnWander = true;
                         }
@@ -894,7 +910,7 @@ public class GlobalMovement : MonoBehaviour {
     {
         Vector3 targetFuture = transform.position + targetOffsetPursuit * offset;
         float distance = Vector3.Distance(transform.position, targetOffsetPursuit);
-        print(distance);
+        
         if (distance > offset) return Seek(TargetOffsetPursuit);
         if (distance < offset) targetFuture = transform.position + targetFuture * offset * 0.75f; //Slow down
 
