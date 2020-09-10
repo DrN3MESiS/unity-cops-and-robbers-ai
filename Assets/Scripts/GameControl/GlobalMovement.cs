@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class GlobalMovement : MonoBehaviour {
@@ -100,7 +101,6 @@ public class GlobalMovement : MonoBehaviour {
             case "Pedestrian":
                 OnWander = true;
                 allPolice = GameObject.FindGameObjectsWithTag("Police");
-                //print(allPolice[0].transform.position);
                 break;
             case "Police":
                 defaultSpeed = 1.6f;
@@ -280,7 +280,7 @@ public class GlobalMovement : MonoBehaviour {
             case "Pedestrian":
                 switch (victimTag)
                 {
-                //Who am I colliding with
+                    //Who am I colliding with
                     case "Pedestrian":
                         if (obj.GetType() == typeof(CapsuleCollider))
                         {
@@ -289,18 +289,20 @@ public class GlobalMovement : MonoBehaviour {
                         break;
                     case "Police":
                         if (obj.GetType() == typeof(CapsuleCollider))
+                        {
                             Debug.Log(myTag + " is colliding with " + victimTag);
+                            ResetProperties();
+                            OnWander = true;
+                        }
                         break;
                     case "Assassin":
                         if (obj.GetType() == typeof(CapsuleCollider))
                         {
                             Debug.Log(myTag + " is colliding with " + victimTag);
-                            //Debug.Log("Pedestrian should stop");
-                            //ResetWander();
                             ResetProperties();
                             this.TargetFlee = obj.gameObject;
                             this.OnFlee = true;
-                            foreach(GameObject police in allPolice)
+                            foreach (GameObject police in allPolice)
                             {
                                 if (Vector3.Distance(gameObject.transform.position, police.transform.position) < nearPoliceDistance)
                                 {
@@ -314,7 +316,20 @@ public class GlobalMovement : MonoBehaviour {
                         break;
                     case "Thief":
                         if (obj.GetType() == typeof(CapsuleCollider))
+                        {
                             Debug.Log(myTag + " is colliding with " + victimTag);
+                            ResetProperties();
+                            foreach (GameObject police in allPolice)
+                            {
+                                if (Vector3.Distance(gameObject.transform.position, police.transform.position) < nearPoliceDistance)
+                                {
+                                    nearPolice = police;
+                                    nearPoliceDistance = Vector3.Distance(gameObject.transform.position, police.transform.position);
+                                }
+                            }
+                            this.TargetSeek = nearPolice;
+                            this.OnSeek = true;
+                        }
                         break;
                     case "User":
                         if (obj.GetType() == typeof(CapsuleCollider))
