@@ -110,7 +110,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!114 &1035793978527714185
 MonoBehaviour:
@@ -139,16 +139,16 @@ MonoBehaviour:
   TargetFlee: {fileID: 0}
   TargetPursuit: {fileID: 0}
   TargetEvade: {fileID: 0}
-  TargetPathFollow: []
+  TargetPathFollow: {fileID: 0}
   TargetArrival: {fileID: 0}
   TargetWander: {fileID: 0}
-  TargetOffsetPursuit: {fileID: 0}
+  TargetOffsetPursuit: {x: 0, y: 0, z: 0}
   s_panicDist: 0
   pursuitDist: 0
   vc_Velocity: {x: 0, y: 0, z: 0}
   vc_Heading: {x: 0, y: 0, z: 0}
   radius: 6
-  pathPoints: []
   pathVectors: []
   isGamePath: 1
   speed: 1
+  jewls: 0
