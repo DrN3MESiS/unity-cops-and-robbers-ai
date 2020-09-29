@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEditorInternal;
 using UnityEngine;
 
-public class GlobalMovement : MonoBehaviour {
+public class GlobalMovement : MonoBehaviour
+{
     /* Public Properties*/
     public float s_rotSpeed = 1.5f;
     public float s_MaxSpeed = 16.0f;
@@ -27,7 +28,7 @@ public class GlobalMovement : MonoBehaviour {
     public Point TargetPathFollow;
     public GameObject TargetArrival;
     public GameObject TargetWander;
-    public Vector3 TargetOffsetPursuit =Vector3.zero;
+    public Vector3 TargetOffsetPursuit = Vector3.zero;
 
     public float s_panicDist;
     public float pursuitDist;
@@ -54,8 +55,8 @@ public class GlobalMovement : MonoBehaviour {
     /*Behaviours Properties*/
     //Wander
     float distance = 5f;
-     float sAngle = 0f;
-     float fAngle = 360f;
+    float sAngle = 0f;
+    float fAngle = 360f;
     //Offset Pursuit
     float offset = 2.0f;
     //PathFollow
@@ -80,7 +81,8 @@ public class GlobalMovement : MonoBehaviour {
 
     /* Functions */
     bool debug = false;
-    void Start () {
+    void Start()
+    {
         EntityRB = GetComponent<Rigidbody>();
         s_MinSpeed = 0.2f;
         vc_Velocity = new Vector3(0.0f, 0.0f, 0.0f);
@@ -116,562 +118,566 @@ public class GlobalMovement : MonoBehaviour {
 
         speed = defaultSpeed;
     }
-    
-    private void OnCollisionEnter(Collision obj)
+
+    // private void OnCollisionEnter(Collision obj)
+    // {
+    //     string myTag = gameObject.tag;
+    //     string victimTag = obj.gameObject.tag;
+
+    //     switch (myTag)
+    //     {
+    //         //What am I
+    //         case "Pedestrian":
+    //             switch (victimTag)
+    //             {
+    //                 //Who am I colliding with
+    //                 case "Pedestrian":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                     {
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                     }
+    //                     break;
+    //                 case "Police":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                     break;
+    //                 case "Assassin":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                     {
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                     }
+    //                     break;
+    //                 case "Thief":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                     break;
+    //                 case "User":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                     break;
+    //                 default:
+    //                     break;
+    //             }
+    //             break;
+    //         case "Police":
+    //             switch (victimTag)
+    //             {
+    //                 //Who am I colliding with
+    //                 case "Pedestrian":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                     break;
+    //                 case "Police":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                     break;
+    //                 case "Assassin":
+    //                     Destroy(obj.gameObject);
+    //                     ResetPursuit();
+    //                     OnWander = true;
+    //                     break;
+    //                 case "Thief":
+    //                     Destroy(obj.gameObject);
+    //                     ResetPursuit();
+    //                     OnWander = true;
+    //                     break;
+    //                 case "User":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                     break;
+    //                 default:
+    //                     break;
+    //             }
+    //             break;
+    //         case "Assassin":
+    //             switch (victimTag)
+    //             {
+    //                 //Who am I colliding with
+    //                 case "Pedestrian":
+    //                     Destroy(obj.gameObject);
+    //                     ResetSeek();
+    //                     OnWander = true;
+    //                     break;
+    //                 case "Police":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                     {
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                     }
+    //                     break;
+    //                 case "Assassin":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                     break;
+    //                 case "Thief":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                     break;
+    //                 case "User":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                     break;
+    //                 default:
+    //                     break;
+    //             }
+    //             break;
+    //         case "Thief":
+    //             switch (victimTag)
+    //             {
+    //                 //Who am I colliding with
+    //                 case "Pedestrian":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                     {
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                     }
+    //                     break;
+    //                 case "Police":
+    //                 case "User":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                     {
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                     }
+    //                     break;
+    //                 case "Assassin":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                     break;
+    //                 default:
+    //                     break;
+    //             }
+    //             break;
+    //         case "User":
+    //             switch (victimTag)
+    //             {
+    //                 //Who am I colliding with
+    //                 case "Pedestrian":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                     break;
+    //                 case "Police":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                     break;
+    //                 case "Assassin":
+    //                     Destroy(obj.gameObject);
+    //                     break;
+    //                 case "Thief":
+    //                     Destroy(obj.gameObject);
+    //                     break;
+    //                 default:
+    //                     break;
+    //             }
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    // }
+
+    // private void OnTriggerEnter(Collider obj)
+    // {
+    //     string myTag = gameObject.tag;
+    //     string victimTag = obj.gameObject.tag;
+    //     switch (myTag)
+    //     {
+    //         //What am I
+    //         case "Pedestrian":
+    //             switch (victimTag)
+    //             {
+    //                 //Who am I colliding with
+    //                 case "Pedestrian":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                     {
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                     }
+    //                     break;
+    //                 case "Police":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                     {
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                         ResetProperties();
+    //                         OnWander = true;
+    //                     }
+    //                     break;
+    //                 case "Assassin":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                     {
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                         ResetProperties();
+    //                         this.TargetFlee = obj.gameObject;
+    //                         this.OnFlee = true;
+    //                         foreach (GameObject police in allPolice)
+    //                         {
+    //                             if (Vector3.Distance(gameObject.transform.position, police.transform.position) < nearPoliceDistance)
+    //                             {
+    //                                 nearPolice = police;
+    //                                 nearPoliceDistance = Vector3.Distance(gameObject.transform.position, police.transform.position);
+    //                             }
+    //                         }
+    //                         this.TargetSeek = nearPolice;
+    //                         this.OnSeek = true;
+    //                     }
+    //                     break;
+    //                 case "Thief":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                     {
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                         ResetProperties();
+    //                         foreach (GameObject police in allPolice)
+    //                         {
+    //                             if (Vector3.Distance(gameObject.transform.position, police.transform.position) < nearPoliceDistance)
+    //                             {
+    //                                 nearPolice = police;
+    //                                 nearPoliceDistance = Vector3.Distance(gameObject.transform.position, police.transform.position);
+    //                             }
+    //                         }
+    //                         this.TargetSeek = nearPolice;
+    //                         this.OnSeek = true;
+    //                     }
+    //                     break;
+    //                 case "User":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                     break;
+    //                 default:
+    //                     break;
+    //             }
+    //             break;
+    //         case "Police":
+    //             switch (victimTag)
+    //             {
+    //                 //Who am I colliding with
+    //                 case "Pedestrian":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         if (obj.GetType() == typeof(CapsuleCollider))
+    //                         {
+    //                             Debug.Log(myTag + " is colliding with " + victimTag);
+    //                             if (OnWander)
+    //                             {
+    //                                 if (obj.gameObject.GetComponent("OnFlee"))
+    //                                 {
+    //                                     ResetProperties();
+    //                                     TargetSeek = obj.gameObject;
+    //                                     OnSeek = true;
+    //                                 }
+    //                             }
+    //                         }
+    //                     break;
+    //                 case "Police":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                     break;
+    //                 case "Assassin":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                     {
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                         if (!OnPursuit)
+    //                         {
+    //                             ResetProperties();
+    //                             TargetPursuit = obj.gameObject;
+    //                             OnPursuit = true;
+    //                         }
+    //                     }
+    //                     break;
+    //                 case "Thief":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                     {
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                         if (!OnPursuit)
+    //                         {
+    //                             ResetProperties();
+    //                             TargetPursuit = obj.gameObject;
+    //                             OnPursuit = true;
+    //                         }
+
+    //                     }
+    //                     break;
+    //                 case "User":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                     break;
+    //                 default:
+    //                     break;
+    //             }
+    //             break;
+    //         case "Assassin":
+    //             switch (victimTag)
+    //             {
+    //                 //Who am I colliding with
+    //                 case "Pedestrian":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                     {
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                         if (!OnFlee)
+    //                         {
+    //                             ResetProperties();
+    //                             TargetSeek = obj.gameObject;
+    //                             OnSeek = true;
+    //                         }
+    //                     }
+    //                     break;
+    //                 case "Police":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                     {
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                         ResetProperties();
+    //                         this.TargetFlee = obj.gameObject;
+    //                         this.OnFlee = true;
+    //                     }
+    //                     break;
+    //                 case "Assassin":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                     break;
+    //                 case "Thief":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                     break;
+    //                 case "User":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                     {
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                         ResetProperties();
+    //                         this.TargetFlee = obj.gameObject;
+    //                         this.OnFlee = true;
+    //                     }
+    //                     break;
+    //                 default:
+    //                     break;
+    //             }
+    //             break;
+    //         case "Thief":
+    //             switch (victimTag)
+    //             {
+    //                 //Who am I colliding with
+    //                 case "Pedestrian":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                     {
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                         this.TargetEvade = obj.gameObject;
+    //                         this.OnEvade = true;
+    //                     }
+    //                     break;
+    //                 case "Police":
+    //                 case "User":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                     {
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                         ResetProperties();
+    //                         this.TargetFlee = obj.gameObject;
+    //                         this.OnFlee = true;
+    //                     }
+    //                     break;
+    //                 case "Assassin":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is colliding with " + victimTag);
+    //                     break;
+    //                 default:
+    //                     break;
+    //             }
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    // }
+
+    // private void OnTriggerExit(Collider obj)
+    // {
+    //     string myTag = gameObject.tag;
+    //     string victimTag = obj.gameObject.tag;
+    //     switch (myTag)
+    //     {
+    //         //What am I
+    //         case "Pedestrian":
+    //             switch (victimTag)
+    //             {
+    //                 //Who is no longer colliding with me
+    //                 case "Pedestrian":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is no longer colliding with " + victimTag);
+    //                     break;
+    //                 case "Police":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is no longer colliding with " + victimTag);
+    //                     break;
+    //                 case "Assassin":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                     {
+    //                         Debug.Log(myTag + " is no longer colliding with " + victimTag);
+    //                         ResetProperties();
+    //                         ResetSeek();
+    //                         ResetWander();
+    //                         OnWander = true;
+    //                     }
+    //                     break;
+    //                 case "Thief":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is no longer colliding with " + victimTag);
+    //                     break;
+    //                 case "User":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is no longer colliding with " + victimTag);
+    //                     break;
+    //                 default:
+    //                     break;
+    //             }
+    //             break;
+    //         case "Police":
+    //             switch (victimTag)
+    //             {
+    //                 //Who is no longer colliding with me
+    //                 case "Pedestrian":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is no longer colliding with " + victimTag);
+    //                     break;
+    //                 case "Police":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is no longer colliding with " + victimTag);
+    //                     break;
+    //                 case "Assassin":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                     {
+    //                         Debug.Log(myTag + " is no longer colliding with " + victimTag);
+    //                         if (OnPursuit)
+    //                         {
+    //                             ResetProperties();
+    //                             TargetOffsetPursuit = obj.gameObject.transform.position;
+    //                             OnOffsetPursuit = true;
+    //                         }
+    //                     }
+    //                     break;
+    //                 case "Thief":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                     {
+    //                         Debug.Log(myTag + " is no longer colliding with " + victimTag);
+    //                         if (OnPursuit)
+    //                         {
+    //                             ResetProperties();
+    //                             TargetOffsetPursuit = obj.gameObject.transform.position;
+    //                             OnOffsetPursuit = true;
+    //                         }
+    //                     }
+    //                     break;
+    //                 case "User":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is no longer colliding with " + victimTag);
+    //                     break;
+    //                 default:
+    //                     break;
+    //             }
+    //             break;
+    //         case "Assassin":
+    //             switch (victimTag)
+    //             {
+    //                 //Who is no longer colliding with me
+    //                 case "Pedestrian":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                     {
+    //                         if (!OnSeek || TargetSeek == null)
+    //                         {
+    //                             Debug.Log(myTag + " is no longer colliding with " + victimTag);
+
+    //                             ResetSeek();
+    //                             this.OnWander = true;
+    //                         }
+    //                     }
+    //                     break;
+    //                 case "Police":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                     {
+    //                         Debug.Log(myTag + " is no longer colliding with " + victimTag);
+    //                         ResetFlee();
+    //                         ResetSeek();
+    //                         this.OnWander = true;
+    //                     }
+    //                     break;
+    //                 case "Assassin":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is no longer colliding with " + victimTag);
+    //                     break;
+    //                 case "Thief":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is no longer colliding with " + victimTag);
+    //                     break;
+    //                 case "User":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                     {
+    //                         Debug.Log(myTag + " is no longer colliding with " + victimTag);
+    //                         ResetFlee();
+    //                         ResetSeek();
+    //                         this.OnWander = true;
+    //                     }
+    //                     break;
+    //                 default:
+    //                     break;
+    //             }
+    //             break;
+    //         case "Thief":
+    //             switch (victimTag)
+    //             {
+    //                 //Who is no longer colliding with me
+    //                 case "Pedestrian":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                     {
+    //                         Debug.Log(myTag + " is no longer colliding with " + victimTag);
+    //                         ResetEvade();
+    //                     }
+    //                     break;
+    //                 case "Police":
+    //                 case "User":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                     {
+    //                         Debug.Log(myTag + " is no longer colliding with " + victimTag);
+    //                         ResetFlee();
+    //                         //StartPathFollow();
+    //                         this.OnPathFollow = true;
+    //                     }
+    //                     break;
+    //                 case "Assassin":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is no longer colliding with " + victimTag);
+    //                     break;
+    //                 default:
+    //                     break;
+    //             }
+    //             break;
+    //         case "User":
+    //             switch (victimTag)
+    //             {
+    //                 //Who is no longer colliding with me
+    //                 case "Pedestrian":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is no longer colliding with " + victimTag);
+    //                     break;
+    //                 case "Police":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is no longer colliding with " + victimTag);
+    //                     break;
+    //                 case "Assassin":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is no longer colliding with " + victimTag);
+    //                     break;
+    //                 case "Thief":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is no longer colliding with " + victimTag);
+    //                     break;
+    //                 case "User":
+    //                     if (obj.GetType() == typeof(CapsuleCollider))
+    //                         Debug.Log(myTag + " is no longer colliding with " + victimTag);
+    //                     break;
+    //                 default:
+    //                     break;
+    //             }
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    // }
+
+    void Update()
     {
-        string myTag = gameObject.tag;
-        string victimTag = obj.gameObject.tag;
 
-        switch (myTag)
+        if (OnEvade)
         {
-            //What am I
-            case "Pedestrian":
-                switch (victimTag)
-                {
-                    //Who am I colliding with
-                    case "Pedestrian":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                        {
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                        }
-                        break;
-                    case "Police":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                        break;
-                    case "Assassin":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                        {
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                        }
-                        break;
-                    case "Thief":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                        break;
-                    case "User":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case "Police":
-                switch (victimTag)
-                {
-                    //Who am I colliding with
-                    case "Pedestrian":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                        break;
-                    case "Police":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                        break;
-                    case "Assassin":
-                        Destroy(obj.gameObject);
-                        ResetPursuit();
-                        OnWander = true;
-                        break;
-                    case "Thief":
-                        Destroy(obj.gameObject);
-                        ResetPursuit();
-                        OnWander = true;
-                        break;
-                    case "User":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case "Assassin":
-                switch (victimTag)
-                {
-                    //Who am I colliding with
-                    case "Pedestrian":
-                        Destroy(obj.gameObject);
-                        ResetSeek();
-                        OnWander = true;
-                        break;
-                    case "Police":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                        {
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                        }
-                        break;
-                    case "Assassin":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                        break;
-                    case "Thief":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                        break;
-                    case "User":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case "Thief":
-                switch (victimTag)
-                {
-                    //Who am I colliding with
-                    case "Pedestrian":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                        {
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                        }
-                        break;
-                    case "Police":
-                    case "User":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                        {
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                        }
-                        break;
-                    case "Assassin":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case "User":
-                switch (victimTag)
-                {
-                    //Who am I colliding with
-                    case "Pedestrian":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                        break;
-                    case "Police":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                        break;
-                    case "Assassin":
-                        Destroy(obj.gameObject);
-                        break;
-                    case "Thief":
-                        Destroy(obj.gameObject);
-                        break; 
-                    default:
-                        break;
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    private void OnTriggerEnter(Collider obj)
-    {
-        string myTag = gameObject.tag;
-        string victimTag = obj.gameObject.tag;
-        switch (myTag)
-        {
-            //What am I
-            case "Pedestrian":
-                switch (victimTag)
-                {
-                    //Who am I colliding with
-                    case "Pedestrian":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                        {
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                        }
-                        break;
-                    case "Police":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                        {
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                            ResetProperties();
-                            OnWander = true;
-                        }
-                        break;
-                    case "Assassin":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                        {
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                            ResetProperties();
-                            this.TargetFlee = obj.gameObject;
-                            this.OnFlee = true;
-                            foreach (GameObject police in allPolice)
-                            {
-                                if (Vector3.Distance(gameObject.transform.position, police.transform.position) < nearPoliceDistance)
-                                {
-                                    nearPolice = police;
-                                    nearPoliceDistance = Vector3.Distance(gameObject.transform.position, police.transform.position);
-                                }
-                            }
-                            this.TargetSeek = nearPolice;
-                            this.OnSeek = true;
-                        }
-                        break;
-                    case "Thief":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                        {
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                            ResetProperties();
-                            foreach (GameObject police in allPolice)
-                            {
-                                if (Vector3.Distance(gameObject.transform.position, police.transform.position) < nearPoliceDistance)
-                                {
-                                    nearPolice = police;
-                                    nearPoliceDistance = Vector3.Distance(gameObject.transform.position, police.transform.position);
-                                }
-                            }
-                            this.TargetSeek = nearPolice;
-                            this.OnSeek = true;
-                        }
-                        break;
-                    case "User":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case "Police":
-                switch (victimTag)
-                {
-                //Who am I colliding with
-                     case "Pedestrian":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            if (obj.GetType() == typeof(CapsuleCollider))
-                        {
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                            if(OnWander)
-                            {
-                                if(obj.gameObject.GetComponent("OnFlee") ){
-                                    ResetProperties();
-                                    TargetSeek = obj.gameObject;
-                                    OnSeek = true;
-                                 }
-                            }
-                        }
-                        break;
-                    case "Police":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                        break;
-                    case "Assassin":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                        {
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                            if(!OnPursuit)
-                            {
-                                ResetProperties();
-                                TargetPursuit = obj.gameObject;
-                                OnPursuit = true;
-                            }
-                        }
-                        break;
-                    case "Thief":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                        {
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                            if(!OnPursuit)
-                            {
-                                ResetProperties();
-                                TargetPursuit = obj.gameObject;
-                                OnPursuit = true;
-                            }
-
-                        }
-                        break;
-                    case "User":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case "Assassin":
-                switch (victimTag)
-                {
-                //Who am I colliding with
-                    case "Pedestrian":
-                        if(obj.GetType() == typeof(CapsuleCollider))
-                        {
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                            if (!OnFlee)
-                            {
-                                ResetProperties();
-                                TargetSeek = obj.gameObject;
-                                OnSeek = true;
-                            }
-                        }
-                        break;
-                    case "Police":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                        {
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                            ResetProperties();
-                            this.TargetFlee = obj.gameObject;
-                            this.OnFlee = true;
-                        }
-                        break;
-                    case "Assassin":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                        break;
-                    case "Thief":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                        break;
-                    case "User":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                        {
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                            ResetProperties();
-                            this.TargetFlee = obj.gameObject;
-                            this.OnFlee = true;
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case "Thief":
-                switch (victimTag)
-                {
-                //Who am I colliding with
-                    case "Pedestrian":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                        {
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                            this.TargetEvade = obj.gameObject;
-                            this.OnEvade = true;
-                        }
-                        break;
-                    case "Police":
-                    case "User":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                        {
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                            ResetProperties();
-                            this.TargetFlee = obj.gameObject;
-                            this.OnFlee = true;
-                        }                            
-                        break;
-                    case "Assassin":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is colliding with " + victimTag);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            default:
-                break;
-        }
-    }
-    private void OnTriggerExit(Collider obj)
-    {
-        string myTag = gameObject.tag;
-        string victimTag = obj.gameObject.tag;
-        switch (myTag)
-        {
-        //What am I
-            case "Pedestrian":
-                switch (victimTag)
-                {
-                //Who is no longer colliding with me
-                    case "Pedestrian":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                        break;
-                    case "Police":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                        break;
-                    case "Assassin":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                        {
-                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                            ResetProperties();
-                            ResetSeek();
-                            ResetWander();
-                            OnWander = true;
-                        }
-                        break;
-                    case "Thief":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                        break;
-                    case "User":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case "Police":
-                switch (victimTag)
-                {
-                //Who is no longer colliding with me
-                    case "Pedestrian":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                        break;
-                    case "Police":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                        break;
-                    case "Assassin":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                        {
-                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                            if (OnPursuit) {
-                                ResetProperties();
-                                TargetOffsetPursuit = obj.gameObject.transform.position;
-                                OnOffsetPursuit = true;
-                            }
-                        }
-                        break;
-                    case "Thief":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                        {
-                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                            if (OnPursuit)
-                            {
-                                ResetProperties();
-                                TargetOffsetPursuit = obj.gameObject.transform.position;
-                                OnOffsetPursuit = true;
-                            }
-                        }
-                        break;
-                    case "User":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case "Assassin":
-                switch (victimTag)
-                {
-                //Who is no longer colliding with me
-                    case "Pedestrian":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                        {
-                            if(!OnSeek || TargetSeek == null)
-                            {
-                                Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                            
-                                ResetSeek();
-                                this.OnWander = true;
-                            }
-                        }
-                        break;
-                    case "Police":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                        {
-                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                            ResetFlee();
-                            ResetSeek();
-                            this.OnWander = true;
-                        }
-                        break;
-                    case "Assassin":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                        break;
-                    case "Thief":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                        break;
-                    case "User":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                        {
-                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                            ResetFlee();
-                            ResetSeek();
-                            this.OnWander = true;
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case "Thief":
-                switch (victimTag)
-                {
-                //Who is no longer colliding with me
-                    case "Pedestrian":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                        {
-                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                            ResetEvade();
-                        }
-                        break;
-                    case "Police":
-                    case "User":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                        {
-                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                            ResetFlee();
-                            //StartPathFollow();
-                            this.OnPathFollow = true;
-                        }
-                        break;
-                    case "Assassin":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case "User":
-                switch (victimTag)
-                {
-                //Who is no longer colliding with me
-                    case "Pedestrian":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                        break;
-                    case "Police":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                        break;
-                    case "Assassin":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                        break;
-                    case "Thief":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                        break;
-                    case "User":
-                        if (obj.GetType() == typeof(CapsuleCollider))
-                            Debug.Log(myTag + " is no longer colliding with " + victimTag);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    void Update () {
-
-        if(OnEvade)
-        {
-            if(TargetEvade != null)
+            if (TargetEvade != null)
             {
                 vel_Evade = Evade(TargetEvade);
             }
@@ -686,7 +692,8 @@ public class GlobalMovement : MonoBehaviour {
                 else
                     vel_Seek = vc_Velocity * -1.0f;
                 //CustomSeek(TargetSeek.transform.position);
-            } else
+            }
+            else
             {
                 Debug.Log("No hay un Target seleccionado para hacer Seek");
             }
@@ -694,20 +701,20 @@ public class GlobalMovement : MonoBehaviour {
 
         if (OnFlee)
         {
-            
+
             if (TargetFlee != null)
             {
                 vel_Flee = Flee(TargetFlee.transform.position);
             }
-             else
+            else
             {
                 Debug.Log("No hay un Target seleccionado para hacer Flee");
             }
         }
 
-        if(OnPursuit)
+        if (OnPursuit)
         {
-            if(TargetPursuit != null)
+            if (TargetPursuit != null)
                 vel_Pursuit = Pursuit(TargetPursuit);
             else
                 Debug.Log("No hay un Target seleccionado para hacer Pursuit");
@@ -715,7 +722,7 @@ public class GlobalMovement : MonoBehaviour {
 
         if (OnWander)
         {
-            if(TargetWander != null)
+            if (TargetWander != null)
             {
                 elapsed += Time.deltaTime;
                 if (elapsed >= .5f)
@@ -723,22 +730,23 @@ public class GlobalMovement : MonoBehaviour {
                     elapsed = elapsed % .5f;
                     Wander(TargetWander);
                 }
-               
+
 
                 this.TargetSeek = TargetWander;
                 this.OnSeek = true;
             }
-             else
+            else
             {
                 GameObject temp = new GameObject();
                 TargetWander = Instantiate(temp, transform.position, Quaternion.identity);
                 Destroy(temp);
-           
+
             }
 
-        } else
+        }
+        else
         {
-            if(TargetWander != null)
+            if (TargetWander != null)
             {
                 vel_Seek = Vector3.zero;
                 Destroy(TargetWander);
@@ -750,20 +758,25 @@ public class GlobalMovement : MonoBehaviour {
 
         if (OnOffsetPursuit)
         {
-            if (TargetOffsetPursuit != Vector3.zero){
-                if (TargetOffsetPursuit != transform.position){
-                vel_OffsetPursuit = OffsetPursuit(TargetOffsetPursuit, offset);}
-                else{
+            if (TargetOffsetPursuit != Vector3.zero)
+            {
+                if (TargetOffsetPursuit != transform.position)
+                {
+                    vel_OffsetPursuit = OffsetPursuit(TargetOffsetPursuit, offset);
+                }
+                else
+                {
                     ResetProperties();
                     OnWander = true;
                 }
-            }else
+            }
+            else
                 Debug.Log("No hay un Target seleccionado para hacer OffsetPursuit");
         }
 
         if (OnArrival)
         {
-            if(TargetArrival != null)
+            if (TargetArrival != null)
             {
                 if (Vector3.Distance(TargetArrival.transform.position, transform.position) > 1.0)
                 {
@@ -773,7 +786,8 @@ public class GlobalMovement : MonoBehaviour {
                 {
                     vel_Arrive = vc_Velocity * -1.0f;
                 }
-            } else
+            }
+            else
             {
                 Debug.Log("No hay un Target seleccionado para hacer Arrival");
             }
@@ -781,7 +795,7 @@ public class GlobalMovement : MonoBehaviour {
 
         if (OnPathFollow)
         {
-            if(TargetPathFollow != null)
+            if (TargetPathFollow != null)
             {
                 if (Vector3.Distance(TargetPathFollow.position, transform.position) > 1.0)
                     vel_Seek = Path();
@@ -792,14 +806,14 @@ public class GlobalMovement : MonoBehaviour {
                     jewls++;
                     StartPathFollow();
                 }
-            }           
+            }
         }
 
         vc_Velocity = Vector3.zero;
         vc_Velocity += vel_Seek + vel_Arrive + vel_Evade + vel_Flee + vel_OffsetPursuit + vel_Pursuit + vel_Wander;
         if (debug)
         {
-            Debug.Log("vc_Velocity("+vc_Velocity+") = " + "vel_Seek("+vel_Seek+") + " + "vel_Arrive(" + vel_Arrive + ") + " + "vel_Evade(" + vel_Evade + ") + " + "vel_Flee(" + vel_Flee + ") + " + "vel_OffsetPursuit(" + vel_OffsetPursuit + ") + " + "vel_Pursuit(" + vel_Pursuit + ") + " + "vel_Wander(" + vel_Wander + ")");
+            Debug.Log("vc_Velocity(" + vc_Velocity + ") = " + "vel_Seek(" + vel_Seek + ") + " + "vel_Arrive(" + vel_Arrive + ") + " + "vel_Evade(" + vel_Evade + ") + " + "vel_Flee(" + vel_Flee + ") + " + "vel_OffsetPursuit(" + vel_OffsetPursuit + ") + " + "vel_Pursuit(" + vel_Pursuit + ") + " + "vel_Wander(" + vel_Wander + ")");
         }
 
         vc_Velocity = Vector3.ClampMagnitude(vc_Velocity, s_MaxSpeed);
@@ -880,11 +894,11 @@ public class GlobalMovement : MonoBehaviour {
     {
         Vector3 direction;
 
-        direction =  transform.position-targetFlee;
+        direction = transform.position - targetFlee;
         direction.y = 0;
 
 
-        if (direction.magnitude>s_panicDist)
+        if (direction.magnitude > s_panicDist)
         {
             return (Vector3.zero);
         }
@@ -900,8 +914,8 @@ public class GlobalMovement : MonoBehaviour {
     {
         Vector3 direction;
 
-        
- 
+
+
         Vector3 FP = target.transform.position + target.GetComponent<Rigidbody>().velocity * 100f * Time.deltaTime;
         direction = FP - transform.position;
         direction.y = 0;
@@ -911,12 +925,12 @@ public class GlobalMovement : MonoBehaviour {
             return (Vector3.zero);
         }
         direction.Normalize();
-        Vector3 DesiredVelocity = direction * s_MaxSpeed ;
+        Vector3 DesiredVelocity = direction * s_MaxSpeed;
         DesiredVelocity = Vector3.ClampMagnitude(DesiredVelocity, s_MaxSpeed);
 
         return DesiredVelocity - EntityRB.velocity;
 
-         
+
 
     }
 
@@ -942,7 +956,7 @@ public class GlobalMovement : MonoBehaviour {
     }
 
     //******************************************************************
-    private void Wander(GameObject target)
+    public void Wander(GameObject target)
     {
         target.transform.position = transform.position;
         target.transform.rotation = Quaternion.Euler(0, UnityEngine.Random.Range(sAngle, fAngle), 0);
@@ -963,7 +977,7 @@ public class GlobalMovement : MonoBehaviour {
     {
         Vector3 targetFuture = transform.position + targetOffsetPursuit * offset;
         float distance = Vector3.Distance(transform.position, targetOffsetPursuit);
-        
+
         if (distance > offset) return Seek(TargetOffsetPursuit);
         if (distance < offset) targetFuture = transform.position + targetFuture * offset * 0.75f; //Slow down
 
@@ -1003,7 +1017,7 @@ public class GlobalMovement : MonoBehaviour {
         Gizmos.color = Color.blue;
     }
 
-    private void ResetProperties()
+    public void ResetProperties()
     {
         this.OnWander = false;
         this.TargetWander = null;
@@ -1036,48 +1050,48 @@ public class GlobalMovement : MonoBehaviour {
         vel_OffsetPursuit = Vector3.zero;
     }
 
-    private void ResetWander()
+    public void ResetWander()
     {
         this.OnWander = false;
         this.TargetWander = null;
         vel_Wander = Vector3.zero;
     }
-    private void ResetSeek()
+    public void ResetSeek()
     {
         this.TargetSeek = null;
         this.OnSeek = false;
         vel_Seek = Vector3.zero;
     }
 
-    private void ResetArrival()
+    public void ResetArrival()
     {
         this.TargetArrival = null;
         this.OnArrival = false;
         vel_Arrive = Vector3.zero;
     }
 
-    private void ResetFlee()
+    public void ResetFlee()
     {
         this.TargetFlee = null;
         this.OnFlee = false;
         vel_Flee = Vector3.zero;
     }
 
-    private void ResetEvade()
+    public void ResetEvade()
     {
         this.TargetEvade = null;
         this.OnEvade = false;
         vel_Evade = Vector3.zero;
     }
 
-    private void ResetPathFollow()
+    public void ResetPathFollow()
     {
         this.TargetPathFollow = null;
         this.OnPathFollow = false;
     }
 
 
-    private void StartPathFollow()
+    public void StartPathFollow()
     {
         if (pathPoints.Count > 0)
         {
@@ -1091,13 +1105,13 @@ public class GlobalMovement : MonoBehaviour {
         }
     }
 
-    private void ResetPursuit()
+    public void ResetPursuit()
     {
         this.TargetPursuit = null;
         this.OnPursuit = false;
         vel_Pursuit = Vector3.zero;
     }
-    private void ResetOffsetPursuit()
+    public void ResetOffsetPursuit()
     {
         this.TargetOffsetPursuit = Vector3.zero;
         this.OnOffsetPursuit = false;
