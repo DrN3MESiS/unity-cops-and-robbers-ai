@@ -23,7 +23,7 @@ public class Diamonds : MonoBehaviour
         {
             Point point = dot.GetComponent<Point>();
             point.position = dot.transform.position;
-            GlobalMovement.pathPoints.Add(point);
+            Thief.pathPoints.Add(point);
         }
     }
 
