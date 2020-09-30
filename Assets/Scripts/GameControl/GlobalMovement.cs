@@ -66,7 +66,7 @@ public class GlobalMovement : MonoBehaviour
     public bool isGamePath = true;
     public float speed = 1.0f;
 
-    private float defaultSpeed = 1.0f;
+    public float defaultSpeed = 1.0f;
 
     /***/
     float elapsed = 0f;
