@@ -24,10 +24,15 @@ public class Assassin : GlobalMovement
 
     IEnumerator EnergyDiscount()
     {
+        Debug.Log("Started Energy Discount");
         while (true)
         {
-            yield return new WaitForSeconds(1f);
-            energyPoints -= 1;
+            if (!imSleeping)
+            {
+                Debug.Log("Discounted 1");
+                yield return new WaitForSeconds(1f);
+                energyPoints -= 1;
+            }
         }
     }
     IEnumerator HouseTimeout()
@@ -36,6 +41,7 @@ public class Assassin : GlobalMovement
         imSleeping = true;
         yield return new WaitForSeconds(10f);
         imSleeping = false;
+        energyPoints = 20;
         StateZero_CivilSearching();
     }
     IEnumerator GunStoreTimeout()
@@ -46,11 +52,37 @@ public class Assassin : GlobalMovement
         buyingAmmo = false;
         StateZero_CivilSearching();
     }
+
+    IEnumerator ActionChecker()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.5f);
+            if (knifeAmmo <= 0 && !iNeedAmmo && !buyingAmmo)
+            {
+                Debug.Log("Need ammo!");
+                ResetProperties();
+                iNeedAmmo = true;
+                // StateThree_GunStore();
+            }
+            else if (energyPoints < 1 && !iNeedSleep && !imSleeping)
+            {
+                Debug.Log("Need Sleep!");
+                ResetProperties();
+                iNeedSleep = true;
+                // StateFour_Home();
+            }
+            Debug.Log("Checking...");
+        }
+    }
     void Start()
     {
         this.defaultSpeed = 1.3f;
-        EnergyDiscount();
+        StartCoroutine(EnergyDiscount());
+        StateZero_CivilSearching();
+        StartCoroutine(ActionChecker());
     }
+
 
     private void OnCollisionEnter(Collision obj)
     {
@@ -77,6 +109,24 @@ public class Assassin : GlobalMovement
                         imTryingToKillAPedestrian = false;
                         //Next State
                         StateZero_CivilSearching();
+                    }
+                }
+                break;
+            case "Assassin Home":
+                if (currentStateCode == 4)
+                {
+                    if (iNeedSleep)
+                    {
+                        StartCoroutine(HouseTimeout());
+                    }
+                }
+                break;
+            case "Assassin GunStore":
+                if (currentStateCode == 3)
+                {
+                    if (iNeedAmmo)
+                    {
+                        StartCoroutine(GunStoreTimeout());
                     }
                 }
                 break;
@@ -227,22 +277,19 @@ public class Assassin : GlobalMovement
         currentStateCode = 3;
         imBeingChasedByPolice = false;
         imTryingToKillAPedestrian = false;
-        iNeedSleep = false;
-        imSleeping = false;
-        buyingAmmo = false;
         //Store: gunStore
         //Once arrives to GunStore
-        GunStoreTimeout();
+        // GunStoreTimeout();
     }
 
-    private void StateFour_Home(GameObject target)
+    private void StateFour_Home()
     {
         currentStateCode = 4;
         imSleeping = true;
 
         //Home: house
         //Once arrives to Home
-        HouseTimeout();
+        // HouseTimeout();
     }
 }
 
