@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AssassinAmmoState : MonoBehaviour
+public class AssassinStoreState : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
