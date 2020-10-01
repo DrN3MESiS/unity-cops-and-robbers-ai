@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class CharacClass : MonoBehaviour, IEquatable<CharacClass>, IComparable<CharacClass>
+public class AssassinCharacterClass : MonoBehaviour, IEquatable<AssassinCharacterClass>, IComparable<AssassinCharacterClass>
 
 {
     public enum LocationsM
@@ -41,7 +41,7 @@ public class CharacClass : MonoBehaviour, IEquatable<CharacClass>, IComparable<C
     }
     //*************************
     //*************************
-    public int CompareTo(CharacClass other)
+    public int CompareTo(AssassinCharacterClass other)
     {
         if (other == null)
         {
@@ -54,7 +54,7 @@ public class CharacClass : MonoBehaviour, IEquatable<CharacClass>, IComparable<C
     //*************************
     public override bool Equals(System.Object obj)
     {
-        CharacClass tmp = obj as CharacClass;
+        AssassinCharacterClass tmp = obj as AssassinCharacterClass;
 
         return myID == tmp.myID;
     }
@@ -64,7 +64,7 @@ public class CharacClass : MonoBehaviour, IEquatable<CharacClass>, IComparable<C
         return myID;
     }
     //*************************
-    public bool Equals(CharacClass other)
+    public bool Equals(AssassinCharacterClass other)
     {
         return myID == other.myID;
     }

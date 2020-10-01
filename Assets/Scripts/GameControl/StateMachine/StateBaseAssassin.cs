@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class StateBase<T> where T : CharacClass
+public abstract class StateBase<T> where T : AssassinCharacterClass
 {
     public T charac;
     public void GetPlayer(T val1)
@@ -20,5 +20,5 @@ public abstract class StateBase<T> where T : CharacClass
 
     // execute when exit from state
     public abstract void Exit(T charac);
-        
+
 }
