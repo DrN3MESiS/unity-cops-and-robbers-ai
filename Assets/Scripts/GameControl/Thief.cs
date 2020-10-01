@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class Thief : GlobalMovement
 {
+    public ThiefStateMachine<Thief> my_FSM;
+
+    //*****************************************************
+    public bool ChangeState(ThiefBaseState<Thief> newState)
+    {
+        my_FSM.ChangeState(newState);   
+        return (true);
+    }
+
     private void OnTriggerEnter(Collider obj)
     {
         string victimTag = obj.gameObject.tag;            
@@ -14,8 +23,8 @@ public class Thief : GlobalMovement
                 if (obj.GetType() == typeof(CapsuleCollider))
                 {
                     Debug.Log("Thief is colliding with " + victimTag);
+                    ChangeState(new ThiefEvadeState());
                     this.TargetEvade = obj.gameObject;
-                    this.OnEvade = true;
                 }
                 break;
             case "Police":
@@ -23,9 +32,8 @@ public class Thief : GlobalMovement
                 if (obj.GetType() == typeof(CapsuleCollider))
                 {
                     Debug.Log("Thief is colliding with " + victimTag);
-                    ResetProperties();
+                    ChangeState(new ThiefFleeState());
                     this.TargetFlee = obj.gameObject;
-                    this.OnFlee = true;
                 }
                 break;
             default:
@@ -44,7 +52,7 @@ public class Thief : GlobalMovement
                 if (obj.GetType() == typeof(CapsuleCollider))
                 {
                     Debug.Log("Thief is no longer colliding with " + victimTag);
-                    ResetEvade();
+                    ChangeState(new ThiefGatheringState());
                 }
                 break;
             case "Police":
@@ -52,13 +60,24 @@ public class Thief : GlobalMovement
                 if (obj.GetType() == typeof(CapsuleCollider))
                 {
                     Debug.Log("Thief is no longer colliding with " + victimTag);
-                    ResetFlee();
-                    //StartPathFollow();
-                    this.OnPathFollow = true;
+                    ChangeState(new ThiefGatheringState());
                 }
                 break;
             default:
                 break;
         }             
+    }
+
+    public override void StartState()
+    {
+        // initialize FSM
+        my_FSM = new ThiefStateMachine<Thief>();
+        my_FSM.SetOwner(this);
+
+        my_FSM.Begin(new ThiefGatheringState());
+    }
+    public override void UpdateState()
+    {
+        my_FSM.UpdateMachine();
     }
 }

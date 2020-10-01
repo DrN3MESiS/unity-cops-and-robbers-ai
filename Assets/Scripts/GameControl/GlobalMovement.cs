@@ -116,7 +116,8 @@ public class GlobalMovement : MonoBehaviour
                 break;
         }
 
-        speed = defaultSpeed;
+        speed = defaultSpeed;        
+        StartState();
     }
 
     // private void OnCollisionEnter(Collision obj)
@@ -674,12 +675,17 @@ public class GlobalMovement : MonoBehaviour
 
     void Update()
     {
+        UpdateState();
 
         if (OnEvade)
         {
-            if (TargetEvade != null)
+            if (this.TargetEvade != null)
             {
-                vel_Evade = Evade(TargetEvade);
+                vel_Evade = Evade(this.TargetEvade);
+            }
+            else
+            {
+                Debug.Log("No hay un Target seleccionado para hacer Evade");
             }
         }
 
@@ -701,10 +707,9 @@ public class GlobalMovement : MonoBehaviour
 
         if (OnFlee)
         {
-
-            if (TargetFlee != null)
+            if (this.TargetFlee != null)
             {
-                vel_Flee = Flee(TargetFlee.transform.position);
+                vel_Flee = Flee(this.TargetFlee.transform.position);
             }
             else
             {
@@ -1118,6 +1123,13 @@ public class GlobalMovement : MonoBehaviour
         vel_OffsetPursuit = Vector3.zero;
     }
 
+    public virtual void StartState()
+    {
 
+    }
+    public virtual void UpdateState()
+    {
+
+    }
 }
 

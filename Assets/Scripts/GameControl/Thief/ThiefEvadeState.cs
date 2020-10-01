@@ -2,17 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThiefEvadeState : MonoBehaviour
+public class ThiefEvadeState : ThiefBaseState<Thief>
 {
-    // Start is called before the first frame update
-    void Start()
+    // action to execute when enter the state
+    public override void Enter(Thief charac)
+    {        
+        charac.OnEvade = true;
+    }
+
+    // is call by update miner function
+    public override void Execute(Thief charac)
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    // execute when exit from state
+    public override void Exit(Thief charac)
     {
-        
+        charac.ResetEvade();        
     }
 }

@@ -2,17 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThiefBaseState : MonoBehaviour
+public abstract class ThiefBaseState<T> where T : Thief
 {
-    // Start is called before the first frame update
-    void Start()
+    public T charac;
+    public void GetPlayer(T val1)
     {
-        
+        charac = val1;
+        return;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public bool enableState = false;
+    // action to execute when enter the state
+    public abstract void Enter(T charac);
+
+    // is call by update miner function
+    public abstract void Execute(T charac);
+
+    // execute when exit from state
+    public abstract void Exit(T charac);
 }
