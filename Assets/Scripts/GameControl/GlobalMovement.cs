@@ -36,12 +36,12 @@ public class GlobalMovement : MonoBehaviour
     public Vector3 vc_Velocity;
     public Vector3 vc_Heading;
     private Vector3 vel_Wander = Vector3.zero;
-    private Vector3 vel_Seek = Vector3.zero;
-    private Vector3 vel_Flee = Vector3.zero;
+    public Vector3 vel_Seek = Vector3.zero;
+    public Vector3 vel_Flee = Vector3.zero;
     private Vector3 vel_Arrive = Vector3.zero;
     private Vector3 vel_Pursuit = Vector3.zero;
     private Vector3 vel_OffsetPursuit = Vector3.zero;
-    private Vector3 vel_Evade = Vector3.zero;
+    public Vector3 vel_Evade = Vector3.zero;
 
     /*Global Radius*/
     private SphereCollider myCollider;
@@ -108,16 +108,10 @@ public class GlobalMovement : MonoBehaviour
                 defaultSpeed = 1.6f;
                 OnWander = true;
                 break;
-            case "Thief":
-                defaultSpeed = 1.3f;
-                OnPathFollow = true;
-                isGamePath = true;
-                StartPathFollow();
-                break;
         }
 
-        speed = defaultSpeed;        
         StartState();
+        speed = defaultSpeed;
     }
 
     // private void OnCollisionEnter(Collision obj)
@@ -745,7 +739,6 @@ public class GlobalMovement : MonoBehaviour
                 GameObject temp = new GameObject();
                 TargetWander = Instantiate(temp, transform.position, Quaternion.identity);
                 Destroy(temp);
-
             }
 
         }
@@ -798,21 +791,21 @@ public class GlobalMovement : MonoBehaviour
             }
         }
 
-        if (OnPathFollow)
-        {
-            if (TargetPathFollow != null)
-            {
-                if (Vector3.Distance(TargetPathFollow.position, transform.position) > 1.0)
-                    vel_Seek = Path();
-                //else
-                //vel_Seek = vc_Velocity * -1.0f;
-                if (TargetPathFollow.withinRadius(transform.position))
-                {
-                    jewls++;
-                    StartPathFollow();
-                }
-            }
-        }
+        // if (OnPathFollow)
+        // {
+        //     if (TargetPathFollow != null)
+        //     {
+        //         if (Vector3.Distance(TargetPathFollow.position, transform.position) > 1.0)
+        //             vel_Seek = Path();
+        //         //else
+        //         //vel_Seek = vc_Velocity * -1.0f;
+        //         if (TargetPathFollow.withinRadius(transform.position))
+        //         {
+        //             jewls++;
+        //             StartPathFollow();
+        //         }
+        //     }
+        // }
 
         vc_Velocity = Vector3.zero;
         vc_Velocity += vel_Seek + vel_Arrive + vel_Evade + vel_Flee + vel_OffsetPursuit + vel_Pursuit + vel_Wander;

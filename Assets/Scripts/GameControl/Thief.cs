@@ -5,6 +5,9 @@ using UnityEngine;
 public class Thief : GlobalMovement
 {
     public ThiefStateMachine<Thief> my_FSM;
+    public static GameObject thiefStorage;
+    public static int thiefDiamonds = 0;
+    public bool needsToStore = false;
 
     //*****************************************************
     public bool ChangeState(ThiefBaseState<Thief> newState)
@@ -22,7 +25,6 @@ public class Thief : GlobalMovement
             case "Pedestrian":
                 if (obj.GetType() == typeof(CapsuleCollider))
                 {
-                    Debug.Log("Thief is colliding with " + victimTag);
                     ChangeState(new ThiefEvadeState());
                     this.TargetEvade = obj.gameObject;
                 }
@@ -31,10 +33,14 @@ public class Thief : GlobalMovement
             case "User":
                 if (obj.GetType() == typeof(CapsuleCollider))
                 {
-                    Debug.Log("Thief is colliding with " + victimTag);
                     ChangeState(new ThiefFleeState());
                     this.TargetFlee = obj.gameObject;
                 }
+                break;
+            case "ThiefStorage":
+                thiefDiamonds -= this.jewls;
+                this.jewls = 0;
+                ChangeState(new ThiefGatheringState());
                 break;
             default:
                 break;
@@ -49,18 +55,24 @@ public class Thief : GlobalMovement
         {
             //Who is no longer colliding with me
             case "Pedestrian":
-                if (obj.GetType() == typeof(CapsuleCollider))
-                {
-                    Debug.Log("Thief is no longer colliding with " + victimTag);
-                    ChangeState(new ThiefGatheringState());
+                if (obj.GetType() == typeof(CapsuleCollider)){
+                    if(this.jewls >= 3){
+                        ChangeState(new ThiefStoringState());
+                        this.TargetSeek = thiefStorage;
+                    } else {
+                        ChangeState(new ThiefGatheringState());
+                    }
                 }
                 break;
             case "Police":
             case "User":
-                if (obj.GetType() == typeof(CapsuleCollider))
-                {
-                    Debug.Log("Thief is no longer colliding with " + victimTag);
-                    ChangeState(new ThiefGatheringState());
+                if (obj.GetType() == typeof(CapsuleCollider)){
+                    if(this.jewls >= 3){
+                        ChangeState(new ThiefStoringState());
+                        this.TargetSeek = thiefStorage;
+                    } else {
+                        ChangeState(new ThiefGatheringState());
+                    }
                 }
                 break;
             default:
@@ -70,6 +82,9 @@ public class Thief : GlobalMovement
 
     public override void StartState()
     {
+        thiefStorage = GameObject.FindGameObjectWithTag("ThiefStorage");
+        defaultSpeed = 1.3f;
+        StartPathFollow();
         // initialize FSM
         my_FSM = new ThiefStateMachine<Thief>();
         my_FSM.SetOwner(this);
@@ -79,5 +94,10 @@ public class Thief : GlobalMovement
     public override void UpdateState()
     {
         my_FSM.UpdateMachine();
+        if(this.needsToStore){
+            ChangeState(new ThiefStoringState());
+            this.TargetSeek = thiefStorage;
+            this.needsToStore = false;
+        }
     }
 }
