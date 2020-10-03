@@ -8,11 +8,11 @@ public class AssassinHomeState : AssassinBaseState<Assassin>
     bool timerHasStarted = false;
     bool timerHasFinished = false;
 
-    IEnumerator Wait()
+    IEnumerator Wait(Assassin charac)
     {
-        Debug.Log("Started Waiting in Home");
+        // Debug.Log("Started Waiting in Home");
         yield return new WaitForSeconds(10f);
-        charac.energyPoints = 20;
+        charac.energyPoints = 30;
         timerHasFinished = true;
     }
 
@@ -21,7 +21,9 @@ public class AssassinHomeState : AssassinBaseState<Assassin>
         charac.currentState = 4;
         enableState = false;
         charac.ResetProperties();
-        Debug.Log("Entered State: " + stateName);
+        // Debug.Log("Entered State: " + stateName);
+        charac.TargetSeek = charac.FindClosestHouse();
+        charac.OnSeek = true;
     }
 
     public override void Execute(Assassin charac)
@@ -31,10 +33,11 @@ public class AssassinHomeState : AssassinBaseState<Assassin>
             if (!timerHasStarted)
             {
                 timerHasStarted = true;
-                charac.StartCoroutine(Wait());
+                charac.StartCoroutine(Wait(charac));
             }
             if (timerHasFinished)
             {
+                charac.ResetProperties();
                 charac.ChangeState(new AssassinSearchState());
             }
         }
@@ -42,6 +45,9 @@ public class AssassinHomeState : AssassinBaseState<Assassin>
 
     public override void Exit(Assassin charac)
     {
-        Debug.Log("\tLeft State: " + stateName);
+        charac.ResetProperties();
+        // Debug.Log("\tLeft State: " + stateName);
     }
+
+
 }

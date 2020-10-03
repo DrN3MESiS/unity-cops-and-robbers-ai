@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Assassin : GlobalMovement
 {
-    public int energyPoints = 20;
+    public int energyPoints = 30;
     public int knifeAmmo = 2;
     public int currentState = 0;
     public AssassinStateMachine<Assassin> my_FSM;
@@ -29,6 +29,11 @@ public class Assassin : GlobalMovement
             case "Pedestrian":
                 if (currentState == 1)
                 {
+                    if (knifeAmmo <= 0)
+                    {
+                        ResetProperties();
+                        ChangeState(new AssassinStoreState());
+                    }
                     Destroy(obj.gameObject);
                     knifeAmmo -= 1;
                     ResetSeek();
@@ -63,12 +68,17 @@ public class Assassin : GlobalMovement
             case "Pedestrian":
                 if (obj.GetType() == typeof(CapsuleCollider))
                 {
-                    if (currentState != 1 && currentState != 2)
+                    if (currentState != 1 && currentState != 2 && currentState != 3 && currentState != 4 && knifeAmmo > 0)
                     {
                         // Debug.Log("Assassin is colliding with " + victimTag);
                         ChangeState(new AssassinKillState());
                         this.TargetSeek = obj.gameObject;
 
+                    }
+
+                    if (knifeAmmo <= 0 && currentState != 2 && currentState != 3 && currentState != 4)
+                    {
+                        ChangeState(new AssassinStoreState());
                     }
                 }
                 break;
@@ -145,6 +155,45 @@ public class Assassin : GlobalMovement
     public override void UpdateState()
     {
         my_FSM.UpdateMachine();
+    }
+
+    public GameObject FindClosestHouse()
+    {
+        GameObject[] gos;
+        gos = GameObject.FindGameObjectsWithTag("Assassin Home");
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 position = transform.position;
+        foreach (GameObject go in gos)
+        {
+            Vector3 diff = go.transform.position - position;
+            float curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                closest = go;
+                distance = curDistance;
+            }
+        }
+        return closest;
+    }
+    public GameObject FindClosestStore()
+    {
+        GameObject[] gos;
+        gos = GameObject.FindGameObjectsWithTag("Assassin Store");
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 position = transform.position;
+        foreach (GameObject go in gos)
+        {
+            Vector3 diff = go.transform.position - position;
+            float curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                closest = go;
+                distance = curDistance;
+            }
+        }
+        return closest;
     }
 }
 

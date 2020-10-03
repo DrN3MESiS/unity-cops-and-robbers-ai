@@ -10,23 +10,24 @@ public class AssassinSearchState : AssassinBaseState<Assassin>
     {
         charac.ResetProperties();
         charac.currentState = 0;
-        Debug.Log("Entered State: " + stateName);
+        // Debug.Log("Entered State: " + stateName);
 
     }
 
     public override void Execute(Assassin charac)
     {
+        charac.OnWander = true;
         if (charac.energyPoints <= 1)
         {
             charac.ChangeState(new AssassinHomeState());
         }
-        charac.OnWander = true;
     }
 
     public override void Exit(Assassin charac)
     {
-        charac.ResetWander();
-        charac.OnWander = false;
-        Debug.Log("\tLeft State: " + stateName);
+        charac.ResetProperties();
+
+        GameObject.Destroy(charac.TargetWander);
+        // Debug.Log("\tLeft State: " + stateName);
     }
 }

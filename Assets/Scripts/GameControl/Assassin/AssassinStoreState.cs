@@ -9,7 +9,7 @@ public class AssassinStoreState : AssassinBaseState<Assassin>
     bool timerHasStarted = false;
     bool timerHasFinished = false;
 
-    IEnumerator Wait()
+    IEnumerator Wait(Assassin charac)
     {
         Debug.Log("Started Waiting in Home");
         yield return new WaitForSeconds(5f);
@@ -23,7 +23,9 @@ public class AssassinStoreState : AssassinBaseState<Assassin>
         charac.currentState = 3;
         enableState = false;
         charac.ResetProperties();
-        Debug.Log("Entered State: " + stateName);
+        // Debug.Log("Entered State: " + stateName);
+        charac.TargetSeek = charac.FindClosestStore();
+        charac.OnSeek = true;
     }
 
     // is call by update miner function
@@ -34,7 +36,7 @@ public class AssassinStoreState : AssassinBaseState<Assassin>
             if (!timerHasStarted)
             {
                 timerHasStarted = true;
-                charac.StartCoroutine(Wait());
+                charac.StartCoroutine(Wait(charac));
             }
             if (timerHasFinished)
             {
@@ -46,7 +48,7 @@ public class AssassinStoreState : AssassinBaseState<Assassin>
     // execute when exit from state
     public override void Exit(Assassin charac)
     {
-        charac.ResetFlee();
-        Debug.Log("\tLeft State: " + stateName);
+        charac.ResetProperties();
+        // Debug.Log("\tLeft State: " + stateName);
     }
 }

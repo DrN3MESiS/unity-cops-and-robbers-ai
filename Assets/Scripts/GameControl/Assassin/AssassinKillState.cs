@@ -13,22 +13,41 @@ public class AssassinKillState : AssassinBaseState<Assassin>
         charac.currentState = 1;
         if (charac.knifeAmmo <= 0)
         {
+            enableState = false;
             charac.ChangeState(new AssassinStoreState());
         }
-        Debug.Log("Entered State: " + stateName);
+        else
+        {
+            enableState = true;
+        }
+
+        // Debug.Log("Entered State: " + stateName);
     }
 
     // is call by update miner function
     public override void Execute(Assassin charac)
     {
+        if (enableState)
+        {
+            if (charac.TargetSeek != null)
+            {
+                charac.vel_Seek = charac.Seek(charac.TargetSeek.transform.position);
+            }
+            else
+            {
+                Debug.Log("No hay un Target seleccionado para hacer Seek");
+            }
 
-        if (charac.TargetSeek != null)
-        {
-            charac.vel_Seek = charac.Seek(charac.TargetSeek.transform.position);
         }
-        else
+
+        if (charac.knifeAmmo <= 0)
         {
-            Debug.Log("No hay un Target seleccionado para hacer Seek");
+            charac.ChangeState(new AssassinStoreState());
+        }
+
+        if (charac.energyPoints <= 1)
+        {
+            charac.ChangeState(new AssassinHomeState());
         }
 
     }
@@ -36,7 +55,8 @@ public class AssassinKillState : AssassinBaseState<Assassin>
     // execute when exit from state
     public override void Exit(Assassin charac)
     {
-        charac.ResetSeek();
-        Debug.Log("\tLeft State: " + stateName);
+        charac.ResetProperties();
+
+        // Debug.Log("\tLeft State: " + stateName);
     }
 }
