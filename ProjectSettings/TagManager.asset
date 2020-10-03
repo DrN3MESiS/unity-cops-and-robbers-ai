@@ -12,6 +12,7 @@ TagManager:
   - Assassin
   - Assasin GunStore
   - Assassin Home
+  - ThiefStorage
   layers:
   - Default
   - TransparentFX

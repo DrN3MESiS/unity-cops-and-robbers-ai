@@ -18,10 +18,10 @@ public class Score : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        score = 0;        
+        score = Thief.thiefDiamonds;        
         foreach (GameObject thief in GameObject.FindGameObjectsWithTag("Thief"))
         {
-            score -= thief.GetComponent<GlobalMovement>().jewls;
+            score -= thief.GetComponent<Thief>().jewls;
         }        
         text.text = score.ToString();
     }
