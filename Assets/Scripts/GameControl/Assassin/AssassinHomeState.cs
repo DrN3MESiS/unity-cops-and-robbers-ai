@@ -4,28 +4,44 @@ using UnityEngine;
 
 public class AssassinHomeState : AssassinBaseState<Assassin>
 {
-    // action to execute when enter the state
+    string stateName = "AssassinHomeState";
+    bool timerHasStarted = false;
+    bool timerHasFinished = false;
+
+    IEnumerator Wait()
+    {
+        Debug.Log("Started Waiting in Home");
+        yield return new WaitForSeconds(10f);
+        charac.energyPoints = 20;
+        timerHasFinished = true;
+    }
+
     public override void Enter(Assassin charac)
     {
+        charac.currentState = 4;
+        enableState = false;
         charac.ResetProperties();
+        Debug.Log("Entered State: " + stateName);
     }
 
-    // is call by update miner function
     public override void Execute(Assassin charac)
     {
-        if (charac.TargetFlee != null)
+        if (enableState)
         {
-            charac.vel_Flee = charac.Flee(charac.TargetFlee.transform.position);
-        }
-        else
-        {
-            Debug.Log("No hay un Target seleccionado para hacer Flee");
+            if (!timerHasStarted)
+            {
+                timerHasStarted = true;
+                charac.StartCoroutine(Wait());
+            }
+            if (timerHasFinished)
+            {
+                charac.ChangeState(new AssassinSearchState());
+            }
         }
     }
 
-    // execute when exit from state
     public override void Exit(Assassin charac)
     {
-        charac.ResetFlee();
+        Debug.Log("\tLeft State: " + stateName);
     }
 }

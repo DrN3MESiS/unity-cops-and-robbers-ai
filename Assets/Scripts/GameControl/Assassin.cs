@@ -4,15 +4,56 @@ using UnityEngine;
 
 public class Assassin : GlobalMovement
 {
+    public int energyPoints = 20;
+    public int knifeAmmo = 2;
+    public int currentState = 0;
     public AssassinStateMachine<Assassin> my_FSM;
 
-    //*****************************************************
+    /*****************************************************/
     public bool ChangeState(AssassinBaseState<Assassin> newState)
     {
         my_FSM.ChangeState(newState);
         return (true);
     }
 
+    /*******************/
+    private void OnCollisionEnter(Collision obj)
+    {
+        string myTag = gameObject.tag;
+        string victimTag = obj.gameObject.tag;
+
+
+        switch (victimTag)
+        {
+            //Who am I colliding with
+            case "Pedestrian":
+                if (currentState == 1)
+                {
+                    Destroy(obj.gameObject);
+                    knifeAmmo -= 1;
+                    ResetSeek();
+                    ChangeState(new AssassinSearchState());
+                }
+
+                break;
+            case "Assassin Store":
+                if (currentState == 3)
+                {
+                    ResetProperties();
+                    my_FSM.CurrentState.enableState = true;
+                }
+                break;
+            case "Assassin Home":
+                if (currentState == 4)
+                {
+                    ResetProperties();
+                    my_FSM.CurrentState.enableState = true;
+                }
+                break;
+            default:
+                break;
+        }
+    }
     private void OnTriggerEnter(Collider obj)
     {
         string victimTag = obj.gameObject.tag;
@@ -22,25 +63,31 @@ public class Assassin : GlobalMovement
             case "Pedestrian":
                 if (obj.GetType() == typeof(CapsuleCollider))
                 {
-                    Debug.Log("Assassin is colliding with " + victimTag);
-                    // ChangeState(new AssassinEvadeState());
-                    // this.TargetEvade = obj.gameObject;
+                    if (currentState != 1 && currentState != 2)
+                    {
+                        // Debug.Log("Assassin is colliding with " + victimTag);
+                        ChangeState(new AssassinKillState());
+                        this.TargetSeek = obj.gameObject;
+
+                    }
                 }
                 break;
             case "Police":
             case "User":
                 if (obj.GetType() == typeof(CapsuleCollider))
                 {
-                    Debug.Log("Assassin is colliding with " + victimTag);
-                    // ChangeState(new AssassinFleeState());
-                    // this.TargetFlee = obj.gameObject;
+                    if (currentState != 4)
+                    {
+                        // Debug.Log("Assassin is colliding with " + victimTag);
+                        ChangeState(new AssassinEscapeState());
+                        this.TargetFlee = obj.gameObject;
+                    }
                 }
                 break;
             default:
                 break;
         }
     }
-
     private void OnTriggerExit(Collider obj)
     {
         string victimTag = obj.gameObject.tag;
@@ -51,16 +98,22 @@ public class Assassin : GlobalMovement
             case "Pedestrian":
                 if (obj.GetType() == typeof(CapsuleCollider))
                 {
-                    Debug.Log("Assassin is no longer colliding with " + victimTag);
-                    // ChangeState(new AssassinGatheringState());
+                    if (currentState != 1 && currentState != 4 && currentState != 3)
+                    {
+                        // Debug.Log("Assassin is no longer colliding with " + victimTag);
+                        ChangeState(new AssassinSearchState());
+                    }
                 }
                 break;
             case "Police":
             case "User":
                 if (obj.GetType() == typeof(CapsuleCollider))
                 {
-                    Debug.Log("Assassin is no longer colliding with " + victimTag);
-                    // ChangeState(new AssassinGatheringState());
+                    if (currentState != 1 && currentState != 4 && currentState != 3)
+                    {
+                        // Debug.Log("Assassin is no longer colliding with " + victimTag);
+                        ChangeState(new AssassinSearchState());
+                    }
                 }
                 break;
             default:
@@ -68,13 +121,26 @@ public class Assassin : GlobalMovement
         }
     }
 
+    /*******************/
+
+    IEnumerator EnergyDiscount()
+    {
+        Debug.Log("Started Energy Discount");
+
+        while (true)
+        {
+            yield return new WaitForSeconds(1f);
+            energyPoints -= 1;
+        }
+
+    }
     public override void StartState()
     {
         // initialize FSM
         my_FSM = new AssassinStateMachine<Assassin>();
         my_FSM.SetOwner(this);
-
-        // my_FSM.Begin(new AssassinGatheringState());
+        my_FSM.Begin(new AssassinSearchState());
+        StartCoroutine(EnergyDiscount());
     }
     public override void UpdateState()
     {

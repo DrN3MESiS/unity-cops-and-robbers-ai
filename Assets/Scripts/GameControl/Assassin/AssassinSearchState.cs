@@ -4,28 +4,29 @@ using UnityEngine;
 
 public class AssassinSearchState : AssassinBaseState<Assassin>
 {
+    string stateName = "AssassinSearchState";
     // action to execute when enter the state
     public override void Enter(Assassin charac)
     {
         charac.ResetProperties();
+        charac.currentState = 0;
+        Debug.Log("Entered State: " + stateName);
+
     }
 
     public override void Execute(Assassin charac)
     {
-
-        if (charac.TargetWander != null)
+        if (charac.energyPoints <= 1)
         {
-            charac.OnWander = true;
+            charac.ChangeState(new AssassinHomeState());
         }
-        else
-        {
-            Debug.Log("No hay un Target seleccionado para hacer Wander");
-        }
+        charac.OnWander = true;
     }
 
     public override void Exit(Assassin charac)
     {
-        charac.ResetFlee();
+        charac.ResetWander();
         charac.OnWander = false;
+        Debug.Log("\tLeft State: " + stateName);
     }
 }

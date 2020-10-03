@@ -96,10 +96,10 @@ public class GlobalMovement : MonoBehaviour
 
         switch (gameObject.tag)
         {
-            case "Assassin":
-                defaultSpeed = 1.3f;
-                OnWander = true;
-                break;
+            // case "Assassin":
+            //     defaultSpeed = 1.3f;
+            //     OnWander = true;
+            //     break;
             case "Pedestrian":
                 OnWander = true;
                 allPolice = GameObject.FindGameObjectsWithTag("Police");

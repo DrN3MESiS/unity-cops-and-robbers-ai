@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6056690093916987927}
   m_Layer: 0
   m_Name: Assassin GunStore
-  m_TagString: Assasin GunStore
+  m_TagString: Assassin Store
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
