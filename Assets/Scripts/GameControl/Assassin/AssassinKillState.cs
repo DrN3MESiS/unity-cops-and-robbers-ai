@@ -2,17 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AssassinKillState : MonoBehaviour
+public class AssassinKillState : AssassinBaseState<Assassin>
 {
-    // Start is called before the first frame update
-    void Start()
+    // action to execute when enter the state
+    public override void Enter(Assassin charac)
     {
-        
+        charac.ResetProperties();
     }
 
-    // Update is called once per frame
-    void Update()
+    // is call by update miner function
+    public override void Execute(Assassin charac)
     {
-        
+        if (charac.TargetSeek != null)
+        {
+            charac.vel_Seek = charac.Seek(charac.TargetSeek.transform.position);
+        }
+        else
+        {
+            Debug.Log("No hay un Target seleccionado para hacer Seek");
+        }
+    }
+
+    // execute when exit from state
+    public override void Exit(Assassin charac)
+    {
+        charac.ResetSeek();
     }
 }

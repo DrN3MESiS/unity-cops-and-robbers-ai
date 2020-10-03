@@ -2,17 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AssassinSearchState : MonoBehaviour
+public class AssassinSearchState : AssassinBaseState<Assassin>
 {
-    // Start is called before the first frame update
-    void Start()
+    // action to execute when enter the state
+    public override void Enter(Assassin charac)
     {
-        
+        charac.ResetProperties();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Execute(Assassin charac)
     {
-        
+
+        if (charac.TargetWander != null)
+        {
+            charac.OnWander = true;
+        }
+        else
+        {
+            Debug.Log("No hay un Target seleccionado para hacer Wander");
+        }
+    }
+
+    public override void Exit(Assassin charac)
+    {
+        charac.ResetFlee();
+        charac.OnWander = false;
     }
 }
