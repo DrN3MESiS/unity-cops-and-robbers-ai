@@ -18,7 +18,7 @@ public class GameControlSB : MonoBehaviour {
     public int policeNumber = 10;
     public int pedestrianNumber = 20;
     // Use this for initialization
-    void Start () {
+    void Awake () {
         /*float spos = 10.0f;
         for (int i = 0; i < 3; i = i + 1)
             for (int j = 0; j < 3; j = j + 1)

@@ -10,6 +10,9 @@ TagManager:
   - User
   - Thief
   - Assassin
+  - Assassin Home
+  - ThiefStorage
+  - Assassin Store
   layers:
   - Default
   - TransparentFX
