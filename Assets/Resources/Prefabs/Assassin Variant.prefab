@@ -1,5 +1,57 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &5125649167184477591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5862856755840907295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3e8731efc425584cb16c051cff0fdb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  s_rotSpeed: 1.5
+  s_MaxSpeed: 16
+  s_MinSpeed: 1
+  OnSeek: 0
+  OnFlee: 0
+  OnEvade: 0
+  OnArrival: 0
+  OnPathFollow: 0
+  OnPursuit: 0
+  OnWander: 0
+  OnOffsetPursuit: 0
+  TargetSeek: {fileID: 0}
+  TargetFlee: {fileID: 0}
+  TargetPursuit: {fileID: 0}
+  TargetEvade: {fileID: 0}
+  TargetPathFollow: {fileID: 0}
+  TargetArrival: {fileID: 0}
+  TargetWander: {fileID: 0}
+  TargetOffsetPursuit: {x: 0, y: 0, z: 0}
+  s_panicDist: 0
+  pursuitDist: 0
+  vc_Velocity: {x: 0, y: 0, z: 0}
+  vc_Heading: {x: 0, y: 0, z: 0}
+  radius: 6
+  pathVectors: []
+  isGamePath: 1
+  speed: 1
+  defaultSpeed: 1
+  jewls: 0
+  knifeAmmo: 2
+  energyPoints: 20
+  currentStateCode: 0
+  imBeingChasedByPolice: 0
+  imTryingToKillAPedestrian: 0
+  iNeedSleep: 0
+  imSleeping: 0
+  iNeedAmmo: 0
+  buyingAmmo: 0
+  gunStore: {fileID: 0}
+  house: {fileID: 0}
 --- !u!1001 &2433337411380533384
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -87,5 +139,12 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 3f79ab04f917753459d73f562ebb8616, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1035793978527714185, guid: 7702a8c6f2c0e6646bdee6c74cb81776, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7702a8c6f2c0e6646bdee6c74cb81776, type: 3}
+--- !u!1 &5862856755840907295 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8113795838886813847, guid: 7702a8c6f2c0e6646bdee6c74cb81776,
+    type: 3}
+  m_PrefabInstance: {fileID: 2433337411380533384}
+  m_PrefabAsset: {fileID: 0}
