@@ -14,6 +14,7 @@ TagManager:
   - ThiefStorage
   - Assassin Store
   - policeStation
+  - coffe
   layers:
   - Default
   - TransparentFX
