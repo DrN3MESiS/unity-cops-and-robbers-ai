@@ -74,8 +74,9 @@ public class Police : GlobalMovement
                 {
                     if ( currentState == 1 && energyPoints > 0)
                     {
-                    this.TargetPursuit = obj.gameObject;
+                    TargetPursuit = obj.gameObject;
                     ChangeState(new PoliceArrestState());
+                    TargetPursuit = obj.gameObject;
                     }
 
                     if (energyPoints <= 0 && currentState == 1)
@@ -89,8 +90,9 @@ public class Police : GlobalMovement
                 {
                     if ( currentState == 1 && energyPoints > 0)
                     {
-                    this.TargetPursuit = obj.gameObject;
+                    TargetPursuit = obj.gameObject;
                     ChangeState(new PoliceArrestState());
+                    TargetPursuit = obj.gameObject;
                     }
 
                     if (energyPoints <= 0 && currentState == 1)

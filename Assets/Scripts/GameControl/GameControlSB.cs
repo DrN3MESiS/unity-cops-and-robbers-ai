@@ -13,10 +13,10 @@ public class GameControlSB : MonoBehaviour {
     public GameObject assassin;
     public GameObject police;
     public GameObject pedestrian;
-    public int thiefNumber = 10;
-    public int assassinNumber = 10;
-    public int policeNumber = 10;
-    public int pedestrianNumber = 20;
+    public int thiefNumber = 1;
+    public int assassinNumber = 1;
+    public int policeNumber = 1;
+    public int pedestrianNumber = 1;
     // Use this for initialization
     void Awake () {
         /*float spos = 10.0f;
