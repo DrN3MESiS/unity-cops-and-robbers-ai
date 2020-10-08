@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Police : GlobalMovement
 {
-    public int energyPoints = 1;
+    public int energyPoints = 20;
     public int currentState = 4;
     public PoliceStateMachine<Police> my_FSM;
 
@@ -30,7 +30,7 @@ public class Police : GlobalMovement
                 {
                     Destroy(obj.gameObject);
                     energyPoints -= 1;
-                    ResetProperties();
+                    ResetSeek();
                     ChangeState(new PoliceSearchState());
                 }
                 break;
@@ -44,7 +44,7 @@ public class Police : GlobalMovement
                 {
                     Destroy(obj.gameObject);
                     energyPoints -= 1;
-                    ResetProperties();
+                    ResetSeek();
                     ChangeState(new PoliceSearchState());
                 }
                 break;
@@ -72,11 +72,16 @@ public class Police : GlobalMovement
             case "Assasin":
                 if (obj.GetType() == typeof(CapsuleCollider))
                 {
-                    if ( currentState == 1 && energyPoints > 0)
+                    if ( currentState != 3 && energyPoints >= 0)
                     {
+<<<<<<< HEAD
                     TargetPursuit = obj.gameObject;
                     ChangeState(new PoliceArrestState());
                     TargetPursuit = obj.gameObject;
+=======
+                        ChangeState(new PoliceArrestState());
+                        this.TargetSeek = obj.gameObject;
+>>>>>>> dbe29a4831c133a23bb940d89c34e32c53b71f07
                     }
 
                     if (energyPoints <= 0 && currentState == 1)
@@ -85,14 +90,19 @@ public class Police : GlobalMovement
                     }
                 }
                 break;
-                case "Thief":
+            case "Thief":
                 if (obj.GetType() == typeof(CapsuleCollider))
                 {
-                    if ( currentState == 1 && energyPoints > 0)
+                    if (currentState != 3 && energyPoints >= 0)
                     {
+<<<<<<< HEAD
                     TargetPursuit = obj.gameObject;
                     ChangeState(new PoliceArrestState());
                     TargetPursuit = obj.gameObject;
+=======
+                        ChangeState(new PoliceArrestState());
+                        this.TargetSeek = obj.gameObject;
+>>>>>>> dbe29a4831c133a23bb940d89c34e32c53b71f07
                     }
 
                     if (energyPoints <= 0 && currentState == 1)
@@ -108,10 +118,10 @@ public class Police : GlobalMovement
                     if (currentState == 1)
                     {
                         if (obj.gameObject.GetComponent("OnFlee"))
-                                     {
-                                         ResetProperties();
-                                        TargetSeek = obj.gameObject;
-                                        OnSeek = true;
+                        {
+                            //ResetProperties();
+                            TargetSeek = obj.gameObject;
+                            OnSeek = true;
                                     }
                     }
                 }
@@ -137,7 +147,7 @@ public class Police : GlobalMovement
                     }
                 }
                 break;
-            case "Assasin":
+            /*case "Assasin":
                 if (obj.GetType() == typeof(CapsuleCollider))
                 {
                     if (currentState == 2)
@@ -154,7 +164,7 @@ public class Police : GlobalMovement
                     ChangeState(new PoliceSearchState());
                     }
                 }
-                break;
+                break;*/
             default:
                 break;
         }
