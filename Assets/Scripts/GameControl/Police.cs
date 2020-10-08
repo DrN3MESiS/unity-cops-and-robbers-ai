@@ -72,10 +72,10 @@ public class Police : GlobalMovement
             case "Assasin":
                 if (obj.GetType() == typeof(CapsuleCollider))
                 {
-                    if ( currentState == 1 && energyPoints > 0)
+                    if ( currentState != 0 && currentState != 2 && currentState != 3 && currentState != 4 && energyPoints > 0)
                     {
-                    this.TargetPursuit = obj.gameObject;
-                    ChangeState(new PoliceArrestState());
+                        ChangeState(new PoliceArrestState());
+                        this.TargetPursuit = obj.gameObject;
                     }
 
                     if (energyPoints <= 0 && currentState == 1)
@@ -87,10 +87,10 @@ public class Police : GlobalMovement
                 case "Thief":
                 if (obj.GetType() == typeof(CapsuleCollider))
                 {
-                    if ( currentState == 1 && energyPoints > 0)
+                    if (currentState != 0 && currentState != 2 && currentState != 3 && currentState != 4 && energyPoints > 0)
                     {
-                    this.TargetPursuit = obj.gameObject;
-                    ChangeState(new PoliceArrestState());
+                        ChangeState(new PoliceArrestState());
+                        this.TargetPursuit = obj.gameObject;
                     }
 
                     if (energyPoints <= 0 && currentState == 1)
