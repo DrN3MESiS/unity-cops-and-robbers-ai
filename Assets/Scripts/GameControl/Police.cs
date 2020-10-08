@@ -25,12 +25,12 @@ public class Police : GlobalMovement
         switch (victimTag)
         {
             //Who am I colliding with
-            case "Assasin":
+            case "Assassin":
                 if (currentState != 4 && currentState != 3)
                 {
                     Destroy(obj.gameObject);
                     energyPoints -= 1;
-                    ResetSeek();
+                    ResetProperties();
                     ChangeState(new PoliceSearchState());
                 }
                 break;
@@ -69,22 +69,17 @@ public class Police : GlobalMovement
         switch (victimTag)
         {
             //Who am I colliding with
-            case "Assasin":
+            case "Assassin":
                 if (obj.GetType() == typeof(CapsuleCollider))
                 {
-                    if ( currentState != 3 && energyPoints >= 0)
+                    if( currentState != 4 &&  currentState != 2 && energyPoints >= 0)
                     {
-<<<<<<< HEAD
                     TargetPursuit = obj.gameObject;
                     ChangeState(new PoliceArrestState());
                     TargetPursuit = obj.gameObject;
-=======
-                        ChangeState(new PoliceArrestState());
-                        this.TargetSeek = obj.gameObject;
->>>>>>> dbe29a4831c133a23bb940d89c34e32c53b71f07
                     }
 
-                    if (energyPoints <= 0 && currentState == 1)
+                    if (energyPoints <= 0 && currentState != 2)
                     {
                         ChangeState(new PoliceCoffeState());
                     }
@@ -93,19 +88,14 @@ public class Police : GlobalMovement
             case "Thief":
                 if (obj.GetType() == typeof(CapsuleCollider))
                 {
-                    if (currentState != 3 && energyPoints >= 0)
+                    if( currentState != 4 &&  currentState != 2 && energyPoints >= 0)
                     {
-<<<<<<< HEAD
                     TargetPursuit = obj.gameObject;
                     ChangeState(new PoliceArrestState());
                     TargetPursuit = obj.gameObject;
-=======
-                        ChangeState(new PoliceArrestState());
-                        this.TargetSeek = obj.gameObject;
->>>>>>> dbe29a4831c133a23bb940d89c34e32c53b71f07
                     }
 
-                    if (energyPoints <= 0 && currentState == 1)
+                    if (energyPoints <= 0 && currentState != 3)
                     {
                         ChangeState(new PoliceCoffeState());
                     }

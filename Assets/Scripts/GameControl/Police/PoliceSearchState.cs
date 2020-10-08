@@ -9,7 +9,6 @@ public class PoliceSearchState : PoliceBaseState<Police>
     {
         charac.ResetProperties();
         charac.currentState = 1;
-
     }
 
     public override void Execute(Police charac)

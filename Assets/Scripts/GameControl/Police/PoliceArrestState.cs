@@ -26,16 +26,15 @@ public class PoliceArrestState : PoliceBaseState<Police>
     // is call by update miner function
     public override void Execute(Police charac)
     {
-        if (charac.energyPoints <= 0)
+            charac.OnSeek = false;
+            charac.OnWander = false;
+            charac.OnPursuit = true;
+        
+
+        if (charac.energyPoints <= 1)
         {
-        charac.ChangeState(new PoliceCoffeState());
-        }else
-        {   
-                charac.OnSeek = false;
-                charac.OnWander = false;
-                charac.OnPursuit = true;
-            }
-            
+            charac.ChangeState(new PoliceCoffeState());
+        }  
     }
 
     // execute when exit from state
