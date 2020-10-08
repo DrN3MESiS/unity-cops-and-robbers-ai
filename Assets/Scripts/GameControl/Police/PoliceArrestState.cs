@@ -26,16 +26,22 @@ public class PoliceArrestState : PoliceBaseState<Police>
     // is call by update miner function
     public override void Execute(Police charac)
     {
-        if (charac.energyPoints <= 0)
+        if (charac.TargetSeek != null)
         {
-        charac.ChangeState(new PoliceCoffeState());
-        }else
-        {   
-                charac.OnSeek = false;
-                charac.OnWander = false;
-                charac.OnPursuit = true;
-            }
-            
+            charac.vel_Seek = charac.Seek(charac.TargetSeek.transform.position);
+            //charac.OnWander = false;
+            //charac.OnPursuit = true;
+
+        }
+        else
+        {
+            Debug.Log("No hay un Target seleccionado para hacer Seek");
+        }
+
+        if (charac.energyPoints <= 1)
+        {
+            charac.ChangeState(new PoliceCoffeState());
+        }  
     }
 
     // execute when exit from state

@@ -21,6 +21,10 @@ public class PedestrianSearchState : PedestrianBaseState<Pedestrian>
         {
             charac.ChangeState(new PedestrianHomeState());
         }
+        if (charac.hungry <= 1)
+        {
+            charac.ChangeState(new PedestrianRestaurantState());
+        }
     }
 
     public override void Exit(Pedestrian charac)
